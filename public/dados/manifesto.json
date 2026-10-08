@@ -1,0 +1,20 @@
+{
+  "version": "2026.1",
+  "publishedDate": "2026-10-08",
+  "title": "Política Monetária e Crédito",
+  "author": "José Victor Santos Lopes",
+  "confidence": "Intervalos de 95% por aproximação normal: beta ± 1,96 × erro-padrão HC0.",
+  "sources": {
+    "saidas/resultados_regressoes/brasil_tempdisagg/tabelas/regressoes_brasil_tempdisagg_coeficientes.csv": "cc79cd58db7dbae5b99c30ac986cb8bd2a987523d15777c743da0dba4c547eb8",
+    "saidas/resultados_regressoes/eua_tempdisagg/tabelas/mapa_series_tempdisagg.csv": "edaca1160b396d6d5a8c9ec51c835eaaad411bfb1a36d83b81a4b3b5111cddfc",
+    "saidas/resultados_regressoes/eua_tempdisagg/tabelas/regressoes_eua_fomc_tempdisagg.csv": "ec0d1837b9a2626197d82a9058a74f3f334a95990c5e8a7f68dd1532d644b9e1",
+    "saidas/resultados_regressoes/eua_tempdisagg/tabelas/tabela_coeficientes_eua_ff3_scheduled_ate_2026.csv": "9b71f4a3c296912cf2bc5614008d1d45925b087a1a5c3ca0632708f6649e9e31",
+    "saidas/interpolacao/eua_tempdisagg/dados/painel_eua_fomc_tempdisagg.csv": "24c8bb600967d7f5eb7e800dacea6e21d7c3b1fee89ad974b493f1a9d5d3e506",
+    "saidas/resultados_regressoes/eua_tempdisagg/tabelas/regressoes_eua_fomc_tempdisagg_recorte_paper.csv": "f0e0c449858d368894b8c986be9ce95ac7ab6c5420bd2851100b3d4eef516c58",
+    "saidas/resultados_regressoes/eua_tempdisagg/tabelas/tabela_coeficientes_eua_ff3_scheduled_recorte_paper.csv": "ffcf94862aa71f85378de1d09497e5b18450caeaf80e39b198e5dc8d1e705352",
+    "saidas/interpolacao/eua_tempdisagg/dados/painel_eua_fomc_tempdisagg_historico_choques_ate_2016-11-02.csv": "58913ec1403cca5a516156e97b588db523e48c073843fd7dc8b4798993a16e1a",
+    "saidas/dados_coletados/surpresas_brasil/surpresas_brasil_completa.csv": "0fe3d62841b2e331e5b24757dd211ff4b46dafb38203333564191012d56a2ee7",
+    "saidas/dados_coletados/surpresas_fomc_jk/dados/jk_ff3_atual_eventos.csv": "3430e7e650b6567e8b0ffae1e2df2ebf63e84c496a8bea772dd573eb18e20e6d",
+    "documentos/tcc_abnt/tcc_abnt_atualizado.pdf": "6f4a35f747ec20f54a8d8e49cd957ee48405951dd5a30736f7a7b9e83a221573"
+  }
+}
