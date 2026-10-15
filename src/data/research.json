@@ -1,12 +1,26 @@
 {
   "meta": {
-    "version": "2026.1",
-    "publishedDate": "2026-10-08",
+    "version": "2026.2",
+    "publishedDate": "2026-10-09",
     "title": "Política Monetária e Crédito",
     "author": "José Victor Santos Lopes",
     "confidence": "Intervalos de 95% por aproximação normal: beta ± 1,96 × erro-padrão HC0.",
     "sources": {
       "saidas/resultados_regressoes/brasil_tempdisagg/tabelas/regressoes_brasil_tempdisagg_coeficientes.csv": "cc79cd58db7dbae5b99c30ac986cb8bd2a987523d15777c743da0dba4c547eb8",
+      "saidas/dados_coletados/atualizacao_figuras_artigo_referencia/dados_processados/detalhamento_saldo_credito_ultimo_ponto.csv": "450d2f9368c2cce37fc9c7eb0615b5df6e1ad981b9d228d1617236aecf916ad3",
+      "saidas/dados_coletados/atualizacao_figuras_artigo_referencia/dados_processados/composicao_saldo_credito_pf_pj.csv": "1b46606dd06698ff061f96be289b2df1d1ceed172e7f77d699678d868c044184",
+      "saidas/dados_coletados/atualizacao_figuras_artigo_referencia/graficos/figura_01_credito_pib_brasil.png": "82b92098c302fa93212df2588506f60a404f7bc8f1396a0c1f36981131fb8db5",
+      "saidas/dados_coletados/atualizacao_figuras_artigo_referencia/dados_processados/credito_pct_pib.csv": "bfd4a763b5577a38ae44de0bae1388a3530499475d2f7c6859d4a30b0ab6b57e",
+      "saidas/dados_coletados/atualizacao_figuras_artigo_referencia/graficos/figura_02_spread_internacional.png": "899cf9a3ae721112889a31e99bb187e5f3ffc729f651294755e04dedbb4713c5",
+      "saidas/dados_coletados/atualizacao_figuras_artigo_referencia/dados_processados/spread_internacional_ultimo.csv": "46c677d76bc9e53b67a1849ec9f2b4043938208d526e1b6f691e4ba088a30532",
+      "saidas/dados_coletados/atualizacao_figuras_artigo_referencia/graficos/figura_10_composicao_credito_brasil.png": "c7ef62ad0ee2d36de5efae43b89c395330d0e8e0186c38942ca3d02a63a8592b",
+      "saidas/dados_coletados/atualizacao_figuras_artigo_referencia/graficos/figura_11_tjlp_tlp_selic.png": "ccbe6069dc5cb8f02cdd82a4730936853f10be993d77037dcc7e44e325311759",
+      "saidas/dados_coletados/atualizacao_figuras_artigo_referencia/dados_processados/taxas_mensais.csv": "147af8e9114edf611d756a388cab4561cc77c35484f74fc2fc3b60ab5f0b074a",
+      "saidas/dados_coletados/atualizacao_figuras_artigo_referencia/graficos/figura_12_spread_novas_operacoes.png": "c78cd4c2089db029bed1c2b796a078259410488c5a99de28cce99025abb69981",
+      "saidas/dados_coletados/atualizacao_figuras_artigo_referencia/dados_processados/spread_operacoes_nao_direcionadas.csv": "cea7376a59e1ea16c5e9a7b03f9b8bf366e568ea2255f8d36678faf113877fc2",
+      "saidas/dados_coletados/atualizacao_figuras_artigo_referencia/graficos/figura_13_credito_gdp_bis.png": "174a84c629f1fd6f9c7864f01228b5a605208bcc21eb830334c5b1971d1f02e1",
+      "saidas/dados_coletados/atualizacao_figuras_artigo_referencia/dados_processados/credito_gdp_bis.csv": "f1c0d906fbea1e5d221b8aaa0b6d78af9bc63872e9e6ca57e27dcc0d67ab8cec",
+      "saidas/dados_coletados/atualizacao_figuras_artigo_referencia/graficos/figura_14_selic_tr.png": "61261ab4fe05b2ced2622008f42e793c5a166bf53bf56a7ab23b6eb6ace56d52",
       "saidas/resultados_regressoes/eua_tempdisagg/tabelas/mapa_series_tempdisagg.csv": "edaca1160b396d6d5a8c9ec51c835eaaad411bfb1a36d83b81a4b3b5111cddfc",
       "saidas/resultados_regressoes/eua_tempdisagg/tabelas/regressoes_eua_fomc_tempdisagg.csv": "ec0d1837b9a2626197d82a9058a74f3f334a95990c5e8a7f68dd1532d644b9e1",
       "saidas/resultados_regressoes/eua_tempdisagg/tabelas/tabela_coeficientes_eua_ff3_scheduled_ate_2026.csv": "9b71f4a3c296912cf2bc5614008d1d45925b087a1a5c3ca0632708f6649e9e31",
@@ -5674,6 +5688,1504 @@
       "date": "2026-03-18",
       "value": 0.0,
       "extension": true
+    }
+  ],
+  "brazilCredit": {
+    "date": "2026-07-01",
+    "total": 7372244.0,
+    "unit": "R$ milhões",
+    "branches": [
+      {
+        "id": "livre_pf",
+        "label": "Livre · famílias",
+        "value": 2560381.0,
+        "shareTotal": 34.73000893622078
+      },
+      {
+        "id": "livre_pj",
+        "label": "Livre · empresas",
+        "value": 1590492.0,
+        "shareTotal": 21.57405533511913
+      },
+      {
+        "id": "dir_pf",
+        "label": "Direcionado · famílias",
+        "value": 2080349.0,
+        "shareTotal": 28.21866720634857
+      },
+      {
+        "id": "dir_pj",
+        "label": "Direcionado · empresas",
+        "value": 1141022.0,
+        "shareTotal": 15.477268522311524
+      }
+    ],
+    "details": [
+      {
+        "id": "dir_pf_20607",
+        "branch": "dir_pf",
+        "label": "Crédito rural: taxas de mercado",
+        "value": 240726.0,
+        "shareTotal": 3.2653015825303666,
+        "shareBranch": 11.5714238332126,
+        "residual": false,
+        "sgsCode": "20607",
+        "rateSeriesId": "pf_direcionados_credito_rural_com_taxas_de_mercado",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": -0.646649938533118,
+            "se": 1.38723991501003,
+            "p": 0.641988444199188,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -3.365640171952777,
+            "ciHigh": 2.072340294886541
+          },
+          "DI90": {
+            "beta": -1.41895254967285,
+            "se": 1.07380721813506,
+            "p": 0.188961082483864,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -3.5236146972175675,
+            "ciHigh": 0.6857095978718677
+          }
+        }
+      },
+      {
+        "id": "dir_pf_20608",
+        "branch": "dir_pf",
+        "label": "Crédito rural: taxas reguladas",
+        "value": 316556.0,
+        "shareTotal": 4.2938893503796125,
+        "shareBranch": 15.216485310878127,
+        "residual": false,
+        "sgsCode": "20608",
+        "rateSeriesId": "pf_direcionados_credito_rural_com_taxas_reguladas",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 0.741955102481759,
+            "se": 0.426128313174614,
+            "p": 0.0843078163341632,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -0.09325639134048447,
+            "ciHigh": 1.5771665963040025
+          },
+          "DI90": {
+            "beta": 0.34900665047283,
+            "se": 0.227512228932448,
+            "p": 0.127749483820177,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -0.09691731823476801,
+            "ciHigh": 0.7949306191804281
+          }
+        }
+      },
+      {
+        "id": "dir_pf_20610",
+        "branch": "dir_pf",
+        "label": "Financiamento imobiliário: taxas de mercado",
+        "value": 167767.0,
+        "shareTotal": 2.275657181178485,
+        "shareBranch": 8.064368045938446,
+        "residual": false,
+        "sgsCode": "20610",
+        "rateSeriesId": "pf_direcionados_financiamento_imobiliario_com_taxas_de_mercado",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 0.61852901557675,
+            "se": 0.604605404802071,
+            "p": 0.308422765360091,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -0.5664975778353092,
+            "ciHigh": 1.8035556089888092
+          },
+          "DI90": {
+            "beta": 1.21952050271593,
+            "se": 0.458753410694972,
+            "p": 0.0089614346353449,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": 0.32036381775378486,
+            "ciHigh": 2.118677187678075
+          }
+        }
+      },
+      {
+        "id": "dir_pf_20611",
+        "branch": "dir_pf",
+        "label": "Financiamento imobiliário: taxas reguladas",
+        "value": 1246881.0,
+        "shareTotal": 16.913181386834186,
+        "shareBranch": 59.936145329461546,
+        "residual": false,
+        "sgsCode": "20611",
+        "rateSeriesId": "pf_direcionados_financiamento_imobiliario_com_taxas_reguladas",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 0.515480426440355,
+            "se": 0.64346676145355,
+            "p": 0.424712305194943,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -0.745714426008603,
+            "ciHigh": 1.776675278889313
+          },
+          "DI90": {
+            "beta": 0.806387409687388,
+            "se": 0.40142331833522,
+            "p": 0.0468785010500957,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": 0.019597705750356798,
+            "ciHigh": 1.593177113624419
+          }
+        }
+      },
+      {
+        "id": "dir_pf_20613",
+        "branch": "dir_pf",
+        "label": "BNDES: capital de giro",
+        "value": 834.0,
+        "shareTotal": 0.011312702075514592,
+        "shareBranch": 0.04008942730282275,
+        "residual": false,
+        "sgsCode": "20613",
+        "rateSeriesId": null,
+        "mapping": "nao mapeado",
+        "estimates": {
+          "DI30": null,
+          "DI90": null
+        }
+      },
+      {
+        "id": "dir_pf_20614",
+        "branch": "dir_pf",
+        "label": "BNDES: investimentos",
+        "value": 5449.0,
+        "shareTotal": 0.07391236643822423,
+        "shareBranch": 0.2619272054833107,
+        "residual": false,
+        "sgsCode": "20614",
+        "rateSeriesId": "pf_direcionados_financiamento_de_investimentos_com_recursos_do_bndes",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": -1.6935749446014,
+            "se": 1.13073880653244,
+            "p": 0.136911967542288,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -3.9098230054049825,
+            "ciHigh": 0.5226731162021825
+          },
+          "DI90": {
+            "beta": -0.453586001972346,
+            "se": 0.692760569360859,
+            "p": 0.513923969129362,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -1.8113967179196293,
+            "ciHigh": 0.9042247139749374
+          }
+        }
+      },
+      {
+        "id": "dir_pf_20615",
+        "branch": "dir_pf",
+        "label": "BNDES: agroindustrial",
+        "value": 89397.0,
+        "shareTotal": 1.2126158602455372,
+        "shareBranch": 4.297211669772716,
+        "residual": false,
+        "sgsCode": "20615",
+        "rateSeriesId": "pf_direcionados_financiamento_agroindustrial_com_recursos_do_bndes",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 0.440471976717672,
+            "se": 0.830483832159446,
+            "p": 0.59686237866259,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -1.1872763343148423,
+            "ciHigh": 2.068220287750186
+          },
+          "DI90": {
+            "beta": 0.0583575173762727,
+            "se": 0.463479961791326,
+            "p": 0.900019847402264,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -0.8500632077347262,
+            "ciHigh": 0.9667782424872716
+          }
+        }
+      },
+      {
+        "id": "dir_pf_20617",
+        "branch": "dir_pf",
+        "label": "Microcrédito: consumo",
+        "value": 660.0,
+        "shareTotal": 0.00895249804537126,
+        "shareBranch": 0.031725446066982035,
+        "residual": false,
+        "sgsCode": "20617",
+        "rateSeriesId": "pf_direcionados_microcredito_destinado_a_consumo",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 11.6014030973941,
+            "se": 5.10405930067183,
+            "p": 0.0248686074670077,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": 1.5974468680773128,
+            "ciHigh": 21.605359326710886
+          },
+          "DI90": {
+            "beta": 6.26723288928257,
+            "se": 3.41271008945385,
+            "p": 0.0688532938522686,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -0.42167888604697534,
+            "ciHigh": 12.956144664612115
+          }
+        }
+      },
+      {
+        "id": "dir_pf_20618",
+        "branch": "dir_pf",
+        "label": "Microcrédito: microempreendedores",
+        "value": 8617.0,
+        "shareTotal": 0.11688435705600629,
+        "shareBranch": 0.41420934660482445,
+        "residual": false,
+        "sgsCode": "20618",
+        "rateSeriesId": "pf_direcionados_microcredito_destinado_a_microempreendedores",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 2.57865922246978,
+            "se": 3.28573571864369,
+            "p": 0.434168220336517,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -3.8613827860718524,
+            "ciHigh": 9.018701231011413
+          },
+          "DI90": {
+            "beta": 0.69437900164918,
+            "se": 2.03065764811454,
+            "p": 0.733008870280606,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -3.2857099886553183,
+            "ciHigh": 4.674467991953678
+          }
+        }
+      },
+      {
+        "id": "dir_pf_residual",
+        "branch": "dir_pf",
+        "label": "Não detalhado pelas séries subjacentes",
+        "value": 3462.0,
+        "shareTotal": 0.046959921565265614,
+        "shareBranch": 0.16641438527862393,
+        "residual": true,
+        "sgsCode": "residual",
+        "rateSeriesId": null,
+        "mapping": "nao mapeado",
+        "estimates": {
+          "DI30": null,
+          "DI90": null
+        }
+      },
+      {
+        "id": "dir_pj_20595",
+        "branch": "dir_pj",
+        "label": "Crédito rural: taxas de mercado",
+        "value": 83638.0,
+        "shareTotal": 1.1344985326041839,
+        "shareBranch": 7.330095300528824,
+        "residual": false,
+        "sgsCode": "20595",
+        "rateSeriesId": "pj_direcionados_credito_rural_com_taxas_de_mercado",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": -0.569444372385936,
+            "se": 1.9676109568215,
+            "p": 0.772785012043125,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -4.425961847756076,
+            "ciHigh": 3.2870731029842037
+          },
+          "DI90": {
+            "beta": -1.67853507077171,
+            "se": 1.20724573384177,
+            "p": 0.167074247894042,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -4.04473670910158,
+            "ciHigh": 0.6876665675581592
+          }
+        }
+      },
+      {
+        "id": "dir_pj_20596",
+        "branch": "dir_pj",
+        "label": "Crédito rural: taxas reguladas",
+        "value": 43739.0,
+        "shareTotal": 0.5932928969795357,
+        "shareBranch": 3.833317850137859,
+        "residual": false,
+        "sgsCode": "20596",
+        "rateSeriesId": "pj_direcionados_credito_rural_com_taxas_reguladas",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": -0.0229533494297435,
+            "se": 0.866322613879513,
+            "p": 0.978907927121853,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -1.7209456726335892,
+            "ciHigh": 1.675038973774102
+          },
+          "DI90": {
+            "beta": 0.0712738976908119,
+            "se": 0.467152293087317,
+            "p": 0.879001651933545,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -0.8443445967603294,
+            "ciHigh": 0.9868923921419532
+          }
+        }
+      },
+      {
+        "id": "dir_pj_20598",
+        "branch": "dir_pj",
+        "label": "Financiamento imobiliário: taxas de mercado",
+        "value": 59094.0,
+        "shareTotal": 0.8015741204441958,
+        "shareBranch": 5.1790412454799295,
+        "residual": false,
+        "sgsCode": "20598",
+        "rateSeriesId": "pj_direcionados_financiamento_imobiliario_com_taxas_de_mercado",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 1.52440335111684,
+            "se": 1.59534025493585,
+            "p": 0.341294345226804,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -1.602463548557426,
+            "ciHigh": 4.6512702507911055
+          },
+          "DI90": {
+            "beta": 1.55645309539314,
+            "se": 1.092562600818,
+            "p": 0.156960721711029,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -0.58496960221014,
+            "ciHigh": 3.69787579299642
+          }
+        }
+      },
+      {
+        "id": "dir_pj_20599",
+        "branch": "dir_pj",
+        "label": "Financiamento imobiliário: taxas reguladas",
+        "value": 18921.0,
+        "shareTotal": 0.25665184169162064,
+        "shareBranch": 1.6582502353153574,
+        "residual": false,
+        "sgsCode": "20599",
+        "rateSeriesId": "pj_direcionados_financiamento_imobiliario_com_taxas_reguladas",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 1.23462838316354,
+            "se": 0.691777627415505,
+            "p": 0.0769208480815947,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -0.12125576657084958,
+            "ciHigh": 2.5905125328979297
+          },
+          "DI90": {
+            "beta": 1.18271110149716,
+            "se": 0.434294134661044,
+            "p": 0.00746244199278027,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": 0.3314945975615139,
+            "ciHigh": 2.0339276054328064
+          }
+        }
+      },
+      {
+        "id": "dir_pj_20601",
+        "branch": "dir_pj",
+        "label": "BNDES: capital de giro",
+        "value": 15013.0,
+        "shareTotal": 0.20364220175024048,
+        "shareBranch": 1.315750265989613,
+        "residual": false,
+        "sgsCode": "20601",
+        "rateSeriesId": "pj_direcionados_capital_de_giro_com_recursos_do_bndes",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": -0.212110781939213,
+            "se": 2.09003683392384,
+            "p": 0.919339389048512,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -4.30858297642994,
+            "ciHigh": 3.884361412551514
+          },
+          "DI90": {
+            "beta": 0.485406109665506,
+            "se": 1.23905908694719,
+            "p": 0.695958887174612,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -1.9431497007509864,
+            "ciHigh": 2.9139619200819986
+          }
+        }
+      },
+      {
+        "id": "dir_pj_20602",
+        "branch": "dir_pj",
+        "label": "BNDES: investimentos",
+        "value": 456654.0,
+        "shareTotal": 6.194233397592375,
+        "shareBranch": 40.0214895067755,
+        "residual": false,
+        "sgsCode": "20602",
+        "rateSeriesId": "pj_direcionados_financiamento_de_investimentos_com_recursos_do_bndes",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": -1.98283857815288,
+            "se": 1.35075055330137,
+            "p": 0.144823270801576,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -4.630309662623565,
+            "ciHigh": 0.6646325063178051
+          },
+          "DI90": {
+            "beta": -0.89676282290057,
+            "se": 0.783118612631594,
+            "p": 0.254517604036215,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -2.431675303658494,
+            "ciHigh": 0.6381496578573542
+          }
+        }
+      },
+      {
+        "id": "dir_pj_20603",
+        "branch": "dir_pj",
+        "label": "BNDES: agroindustrial",
+        "value": 22852.0,
+        "shareTotal": 0.30997346262549097,
+        "shareBranch": 2.00276594141042,
+        "residual": false,
+        "sgsCode": "20603",
+        "rateSeriesId": "pj_direcionados_financiamento_agroindustrial_com_recursos_do_bndes",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": -1.34995342962658,
+            "se": 0.849565670455404,
+            "p": 0.114784026378837,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -3.015102143719172,
+            "ciHigh": 0.31519528446601175
+          },
+          "DI90": {
+            "beta": -0.724410350353526,
+            "se": 0.637148576146132,
+            "p": 0.257899569265235,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -1.9732215595999445,
+            "ciHigh": 0.5244008588928926
+          }
+        }
+      },
+      {
+        "id": "dir_pj_20605",
+        "branch": "dir_pj",
+        "label": "Outros instrumentos",
+        "value": 281221.0,
+        "shareTotal": 3.814591595177805,
+        "shareBranch": 24.646413478443012,
+        "residual": false,
+        "sgsCode": "20605",
+        "rateSeriesId": null,
+        "mapping": "nao mapeado",
+        "estimates": {
+          "DI30": null,
+          "DI90": null
+        }
+      },
+      {
+        "id": "dir_pj_residual",
+        "branch": "dir_pj",
+        "label": "Não detalhado pelas séries subjacentes",
+        "value": 159890.0,
+        "shareTotal": 2.168810473446077,
+        "shareBranch": 14.012876175919484,
+        "residual": true,
+        "sgsCode": "residual",
+        "rateSeriesId": null,
+        "mapping": "nao mapeado",
+        "estimates": {
+          "DI30": null,
+          "DI90": null
+        }
+      },
+      {
+        "id": "livre_pf_20580",
+        "branch": "livre_pf",
+        "label": "Crédito pessoal",
+        "value": 1182936.0,
+        "shareTotal": 16.04580640575651,
+        "shareBranch": 46.20156140824354,
+        "residual": false,
+        "sgsCode": "20580",
+        "rateSeriesId": "pf_livres_credito_pessoal_total",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 0.39888864418016,
+            "se": 1.24809757887721,
+            "p": 0.749619286909607,
+            "n": 196,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": -2.047382610419171,
+            "ciHigh": 2.8451598987794915
+          },
+          "DI90": {
+            "beta": 0.462802450201819,
+            "se": 0.987091673420977,
+            "p": 0.639702741055843,
+            "n": 196,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": -1.4718972297032962,
+            "ciHigh": 2.397502130106934
+          }
+        }
+      },
+      {
+        "id": "livre_pf_20575",
+        "branch": "livre_pf",
+        "label": "Renegociação",
+        "value": 84269.0,
+        "shareTotal": 1.1430576633111982,
+        "shareBranch": 3.291267979257775,
+        "residual": false,
+        "sgsCode": "20575",
+        "rateSeriesId": "pf_livres_credito_pessoal_nao_consignado_vinculado_a_composicao_de_dividas",
+        "mapping": "aproximado",
+        "estimates": {
+          "DI30": {
+            "beta": 4.80687657497682,
+            "se": 4.21796550895455,
+            "p": 0.256792530532446,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -3.4603358225740974,
+            "ciHigh": 13.074088972527736
+          },
+          "DI90": {
+            "beta": 3.31031903251433,
+            "se": 2.86481656008464,
+            "p": 0.25025691449729,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -2.304721425251564,
+            "ciHigh": 8.925359490280224
+          }
+        }
+      },
+      {
+        "id": "livre_pf_20583",
+        "branch": "livre_pf",
+        "label": "Aquisição de bens",
+        "value": 435941.0,
+        "shareTotal": 5.913274167268474,
+        "shareBranch": 17.0264113036302,
+        "residual": false,
+        "sgsCode": "20583",
+        "rateSeriesId": "pf_livres_aquisicao_de_bens_total",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": -0.133730701535947,
+            "se": 0.980399433120669,
+            "p": 0.891646092624889,
+            "n": 193,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": -2.055313590452458,
+            "ciHigh": 1.7878521873805642
+          },
+          "DI90": {
+            "beta": 0.678284501094463,
+            "se": 0.733120033369007,
+            "p": 0.356034178917639,
+            "n": 193,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": -0.7586307643087907,
+            "ciHigh": 2.115199766497717
+          }
+        }
+      },
+      {
+        "id": "livre_pf_20586",
+        "branch": "livre_pf",
+        "label": "Arrendamento mercantil",
+        "value": 505.0,
+        "shareTotal": 0.006850017443806798,
+        "shareBranch": 0.01972362706956504,
+        "residual": false,
+        "sgsCode": "20586",
+        "rateSeriesId": "pf_livres_arrendamento_mercantil_total",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": -3.23027461973914,
+            "se": 4.22758164620031,
+            "p": 0.446361998454668,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -11.516334646291748,
+            "ciHigh": 5.055785406813468
+          },
+          "DI90": {
+            "beta": -0.875353298168239,
+            "se": 2.54481705485193,
+            "p": 0.731487865784154,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -5.863194725678023,
+            "ciHigh": 4.1124881293415445
+          }
+        }
+      },
+      {
+        "id": "livre_pf_20573",
+        "branch": "livre_pf",
+        "label": "Cheque especial",
+        "value": 44929.0,
+        "shareTotal": 0.6094345222431596,
+        "shareBranch": 1.754777902195025,
+        "residual": false,
+        "sgsCode": "20573",
+        "rateSeriesId": "pf_livres_cheque_especial",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 3.11228684188396,
+            "se": 2.70778806865351,
+            "p": 0.251820242378072,
+            "n": 196,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": -2.1949777726769195,
+            "ciHigh": 8.41955145644484
+          },
+          "DI90": {
+            "beta": 1.52525121098941,
+            "se": 2.14000440293778,
+            "p": 0.476871956732308,
+            "n": 196,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": -2.6691574187686387,
+            "ciHigh": 5.719659840747458
+          }
+        }
+      },
+      {
+        "id": "livre_pf_20590",
+        "branch": "livre_pf",
+        "label": "Cartão de crédito total",
+        "value": 745736.0,
+        "shareTotal": 10.115454670246942,
+        "shareBranch": 29.125977735344854,
+        "residual": false,
+        "sgsCode": "20590",
+        "rateSeriesId": "pf_livres_cartao_de_credito_total",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": -7.84453088384039,
+            "se": 6.54233929210396,
+            "p": 0.232955755741986,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -20.66751589636415,
+            "ciHigh": 4.978454128683371
+          },
+          "DI90": {
+            "beta": -5.94992220508588,
+            "se": 4.65689270197811,
+            "p": 0.203920650360325,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -15.077431900962976,
+            "ciHigh": 3.1775874907912165
+          }
+        }
+      },
+      {
+        "id": "livre_pf_20591",
+        "branch": "livre_pf",
+        "label": "Desconto de cheques",
+        "value": 1368.0,
+        "shareTotal": 0.01855608685767861,
+        "shareBranch": 0.05342954818052469,
+        "residual": false,
+        "sgsCode": "20591",
+        "rateSeriesId": "pf_livres_desconto_de_cheques",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 7.07676629668057,
+            "se": 2.30729228049349,
+            "p": 0.0026900190345742,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": 2.5544734269133293,
+            "ciHigh": 11.59905916644781
+          },
+          "DI90": {
+            "beta": 3.56137770372787,
+            "se": 1.56406644958411,
+            "p": 0.0246193838657381,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": 0.49580746254301467,
+            "ciHigh": 6.626947944912725
+          }
+        }
+      },
+      {
+        "id": "livre_pf_20592",
+        "branch": "livre_pf",
+        "label": "Outros instrumentos",
+        "value": 64698.0,
+        "shareTotal": 0.8775889674839845,
+        "shareBranch": 2.52688955276578,
+        "residual": false,
+        "sgsCode": "20592",
+        "rateSeriesId": null,
+        "mapping": "nao mapeado",
+        "estimates": {
+          "DI30": null,
+          "DI90": null
+        }
+      },
+      {
+        "id": "livre_pf_rounding",
+        "branch": "livre_pf",
+        "label": "Ajuste de arredondamento",
+        "value": -1.0,
+        "shareTotal": -1.3564390977835242e-05,
+        "shareBranch": -3.9056687266465424e-05,
+        "residual": true,
+        "sgsCode": "rounding",
+        "rateSeriesId": null,
+        "mapping": "nao mapeado",
+        "estimates": {
+          "DI30": null,
+          "DI90": null
+        }
+      },
+      {
+        "id": "livre_pj_20544",
+        "branch": "livre_pj",
+        "label": "Desconto de duplicatas e recebíveis",
+        "value": 176069.0,
+        "shareTotal": 2.3882687550764734,
+        "shareBranch": 11.070096548740892,
+        "residual": false,
+        "sgsCode": "20544",
+        "rateSeriesId": "pj_livres_desconto_de_duplicatas_e_recebiveis",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 1.55548585908948,
+            "se": 0.960716609537552,
+            "p": 0.107061009778501,
+            "n": 196,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": -0.32751869560412183,
+            "ciHigh": 3.438490413783082
+          },
+          "DI90": {
+            "beta": 1.31792158909888,
+            "se": 0.761644690965083,
+            "p": 0.0851639430650059,
+            "n": 196,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": -0.17490200519268262,
+            "ciHigh": 2.8107451833904427
+          }
+        }
+      },
+      {
+        "id": "livre_pj_20545",
+        "branch": "livre_pj",
+        "label": "Desconto de cheques",
+        "value": 3338.0,
+        "shareTotal": 0.045277937084014036,
+        "shareBranch": 0.20987216534254807,
+        "residual": false,
+        "sgsCode": "20545",
+        "rateSeriesId": "pj_livres_desconto_de_cheques",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 1.47367771588839,
+            "se": 1.03021913000796,
+            "p": 0.155275889636254,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -0.5455517789272115,
+            "ciHigh": 3.492907210703992
+          },
+          "DI90": {
+            "beta": 0.690674340045024,
+            "se": 0.723521944792736,
+            "p": 0.341764890733914,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -0.7274286717487385,
+            "ciHigh": 2.1087773518387865
+          }
+        }
+      },
+      {
+        "id": "livre_pj_20546",
+        "branch": "livre_pj",
+        "label": "Antecipação de faturas de cartão",
+        "value": 107410.0,
+        "shareTotal": 1.4569512349292835,
+        "shareBranch": 6.753256225117762,
+        "residual": false,
+        "sgsCode": "20546",
+        "rateSeriesId": "pj_livres_antecipacao_de_faturas_de_cartao_de_credito",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 0.42028266952585,
+            "se": 2.0942381545882,
+            "p": 0.841296149623248,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -3.6844241134670215,
+            "ciHigh": 4.524989452518722
+          },
+          "DI90": {
+            "beta": 1.7595302977653,
+            "se": 1.60551185358563,
+            "p": 0.275379035791792,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -1.387272935262535,
+            "ciHigh": 4.906333530793135
+          }
+        }
+      },
+      {
+        "id": "livre_pj_20550",
+        "branch": "livre_pj",
+        "label": "Capital de giro",
+        "value": 489919.0,
+        "shareTotal": 6.645452863470064,
+        "shareBranch": 30.80298423380941,
+        "residual": false,
+        "sgsCode": "20550",
+        "rateSeriesId": "pj_livres_capital_de_giro_total",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 1.85394894616114,
+            "se": 0.608621969240011,
+            "p": 0.00264212218799349,
+            "n": 196,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": 0.6610498864507186,
+            "ciHigh": 3.0468480058715617
+          },
+          "DI90": {
+            "beta": 1.58658343712229,
+            "se": 0.491809863217557,
+            "p": 0.00147456380610248,
+            "n": 196,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": 0.6226361052158783,
+            "ciHigh": 2.550530769028702
+          }
+        }
+      },
+      {
+        "id": "livre_pj_20551",
+        "branch": "livre_pj",
+        "label": "Conta garantida",
+        "value": 47249.0,
+        "shareTotal": 0.6409039093117375,
+        "shareBranch": 2.970715979709423,
+        "residual": false,
+        "sgsCode": "20551",
+        "rateSeriesId": "pj_livres_conta_garantida",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 0.280518641187085,
+            "se": 0.975064718798099,
+            "p": 0.77389581439617,
+            "n": 193,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": -1.6306082076571888,
+            "ciHigh": 2.191645490031359
+          },
+          "DI90": {
+            "beta": -0.297566535414191,
+            "se": 0.654244922339612,
+            "p": 0.649754834310993,
+            "n": 193,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": -1.5798865831998303,
+            "ciHigh": 0.9847535123714484
+          }
+        }
+      },
+      {
+        "id": "livre_pj_20552",
+        "branch": "livre_pj",
+        "label": "Cheque especial",
+        "value": 21423.0,
+        "shareTotal": 0.2905899479181644,
+        "shareBranch": 1.3469417010585403,
+        "residual": false,
+        "sgsCode": "20552",
+        "rateSeriesId": "pj_livres_cheque_especial",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 10.9099741925325,
+            "se": 11.7939420877006,
+            "p": 0.356860838650254,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -12.206152299360676,
+            "ciHigh": 34.02610068442568
+          },
+          "DI90": {
+            "beta": 2.18348453216167,
+            "se": 6.07543733419831,
+            "p": 0.71995268040064,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -9.724372642867017,
+            "ciHigh": 14.091341707190356
+          }
+        }
+      },
+      {
+        "id": "livre_pj_20555",
+        "branch": "livre_pj",
+        "label": "Aquisição de bens",
+        "value": 168745.0,
+        "shareTotal": 2.2889231555548077,
+        "shareBranch": 10.609610108067189,
+        "residual": false,
+        "sgsCode": "20555",
+        "rateSeriesId": "pj_livres_aquisicao_de_bens_total",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 0.643287313605499,
+            "se": 0.663306226751555,
+            "p": 0.333369416710627,
+            "n": 193,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": -0.656792890827549,
+            "ciHigh": 1.943367518038547
+          },
+          "DI90": {
+            "beta": 0.699312566263745,
+            "se": 0.501233329739917,
+            "p": 0.164589110794753,
+            "n": 193,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": -0.2831047600264922,
+            "ciHigh": 1.6817298925539823
+          }
+        }
+      },
+      {
+        "id": "livre_pj_20558",
+        "branch": "livre_pj",
+        "label": "Arrendamento mercantil",
+        "value": 28440.0,
+        "shareTotal": 0.3857712794096343,
+        "shareBranch": 1.7881259383888757,
+        "residual": false,
+        "sgsCode": "20558",
+        "rateSeriesId": "pj_livres_arrendamento_mercantil_total",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 0.965962510571418,
+            "se": 0.756969052613407,
+            "p": 0.20447198583511,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -0.5176968325508595,
+            "ciHigh": 2.449621853693696
+          },
+          "DI90": {
+            "beta": 0.397178110550975,
+            "se": 0.543362904612872,
+            "p": 0.466275734846928,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -0.667813182490254,
+            "ciHigh": 1.4621694035922042
+          }
+        }
+      },
+      {
+        "id": "livre_pj_20559",
+        "branch": "livre_pj",
+        "label": "Vendor",
+        "value": 2854.0,
+        "shareTotal": 0.03871277185074178,
+        "shareBranch": 0.17944133010414387,
+        "residual": false,
+        "sgsCode": "20559",
+        "rateSeriesId": "pj_livres_vendor",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 1.45531459456801,
+            "se": 0.759245486577407,
+            "p": 0.0567416816176915,
+            "n": 196,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": -0.03280655912370767,
+            "ciHigh": 2.9434357482597275
+          },
+          "DI90": {
+            "beta": 1.7957442641196,
+            "se": 0.623168807139732,
+            "p": 0.00440416380947163,
+            "n": 196,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": 0.5743334021257254,
+            "ciHigh": 3.0171551261134746
+          }
+        }
+      },
+      {
+        "id": "livre_pj_20560",
+        "branch": "livre_pj",
+        "label": "Compror",
+        "value": 17127.0,
+        "shareTotal": 0.2323173242773842,
+        "shareBranch": 1.0768366015044402,
+        "residual": false,
+        "sgsCode": "20560",
+        "rateSeriesId": "pj_livres_compror",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 0.233144361860628,
+            "se": 1.06291661842641,
+            "p": 0.826767599153349,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -1.8501722102551357,
+            "ciHigh": 2.3164609339763915
+          },
+          "DI90": {
+            "beta": 0.20816040710962,
+            "se": 0.666367802025356,
+            "p": 0.755312100316905,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -1.0979204848600777,
+            "ciHigh": 1.5142412990793175
+          }
+        }
+      },
+      {
+        "id": "livre_pj_20564",
+        "branch": "livre_pj",
+        "label": "Cartão de crédito",
+        "value": 60476.0,
+        "shareTotal": 0.8203201087755642,
+        "shareBranch": 3.802345437763912,
+        "residual": false,
+        "sgsCode": "20564",
+        "rateSeriesId": "pj_livres_cartao_de_credito_total",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": -4.18108269896476,
+            "se": 8.85429217981681,
+            "p": 0.637664243713393,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -21.53549537140571,
+            "ciHigh": 13.173329973476188
+          },
+          "DI90": {
+            "beta": -3.54179119484127,
+            "se": 6.09863473409401,
+            "p": 0.562534540641266,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -15.49511527366553,
+            "ciHigh": 8.41153288398299
+          }
+        }
+      },
+      {
+        "id": "livre_pj_20565",
+        "branch": "livre_pj",
+        "label": "ACC",
+        "value": 121782.0,
+        "shareTotal": 1.6518986620627316,
+        "shareBranch": 7.6568759855440955,
+        "residual": false,
+        "sgsCode": "20565",
+        "rateSeriesId": "pj_livres_acc",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": 0.163328708626831,
+            "se": 0.331018211795882,
+            "p": 0.622281740585805,
+            "n": 196,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": -0.4854669864930976,
+            "ciHigh": 0.8121244037467596
+          },
+          "DI90": {
+            "beta": 0.00280655428611221,
+            "se": 0.232224329972969,
+            "p": 0.990369859839206,
+            "n": 196,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": -0.452353132460907,
+            "ciHigh": 0.45796624103313144
+          }
+        }
+      },
+      {
+        "id": "livre_pj_20566",
+        "branch": "livre_pj",
+        "label": "Financiamento a importações",
+        "value": 8175.0,
+        "shareTotal": 0.11088889624380312,
+        "shareBranch": 0.5139918968470133,
+        "residual": false,
+        "sgsCode": "20566",
+        "rateSeriesId": "pj_livres_financiamento_a_importacoes",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": -0.0382516407536594,
+            "se": 2.04762299280977,
+            "p": 0.985127681168571,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -4.051592706660809,
+            "ciHigh": 3.9750894251534903
+          },
+          "DI90": {
+            "beta": 0.957096884339457,
+            "se": 1.4966333698826,
+            "p": 0.523758700536243,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -1.9763045206304386,
+            "ciHigh": 3.890498289309353
+          }
+        }
+      },
+      {
+        "id": "livre_pj_20567",
+        "branch": "livre_pj",
+        "label": "Financiamento a exportações",
+        "value": 129321.0,
+        "shareTotal": 1.7541606056446315,
+        "shareBranch": 8.13088025592081,
+        "residual": false,
+        "sgsCode": "20567",
+        "rateSeriesId": "pj_livres_financiamento_a_exportacoes",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": -1.53408829968559,
+            "se": 1.03746897207657,
+            "p": 0.141935274934829,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -3.567527484955667,
+            "ciHigh": 0.49935088558448704
+          },
+          "DI90": {
+            "beta": -0.427434851876437,
+            "se": 0.61131260039347,
+            "p": 0.485821500356292,
+            "n": 119,
+            "first": "2011-07-20",
+            "last": "2026-04-29",
+            "ciLow": -1.6256075486476382,
+            "ciHigh": 0.7707378448947642
+          }
+        }
+      },
+      {
+        "id": "livre_pj_20568",
+        "branch": "livre_pj",
+        "label": "Repasse externo",
+        "value": 27884.0,
+        "shareTotal": 0.3782294780259579,
+        "shareBranch": 1.7531682020406263,
+        "residual": false,
+        "sgsCode": "20568",
+        "rateSeriesId": "pj_livres_repasse_externo",
+        "mapping": "exato",
+        "estimates": {
+          "DI30": {
+            "beta": -0.014615166216088,
+            "se": 1.31080330630788,
+            "p": 0.991115465212944,
+            "n": 196,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": -2.5837896465795325,
+            "ciHigh": 2.5545593141473564
+          },
+          "DI90": {
+            "beta": 0.318261512260123,
+            "se": 0.888797407036765,
+            "p": 0.720673986214969,
+            "n": 196,
+            "first": "2003-04-23",
+            "last": "2026-04-29",
+            "ciLow": -1.4237814055319364,
+            "ciHigh": 2.0603044300521822
+          }
+        }
+      },
+      {
+        "id": "livre_pj_20569",
+        "branch": "livre_pj",
+        "label": "Outros instrumentos",
+        "value": 180279.0,
+        "shareTotal": 2.4453748410931597,
+        "shareBranch": 11.334794516413789,
+        "residual": false,
+        "sgsCode": "20569",
+        "rateSeriesId": null,
+        "mapping": "nao mapeado",
+        "estimates": {
+          "DI30": null,
+          "DI90": null
+        }
+      },
+      {
+        "id": "livre_pj_rounding",
+        "branch": "livre_pj",
+        "label": "Ajuste de arredondamento",
+        "value": 1.0,
+        "shareTotal": 1.3564390977835242e-05,
+        "shareBranch": 6.287362652562854e-05,
+        "residual": true,
+        "sgsCode": "rounding",
+        "rateSeriesId": null,
+        "mapping": "nao mapeado",
+        "estimates": {
+          "DI30": null,
+          "DI90": null
+        }
+      }
+    ]
+  },
+  "motivation": [
+    {
+      "id": "credito-pib",
+      "theme": "Escala e custo",
+      "title": "Crédito no Brasil (% do PIB)",
+      "source": "Banco Central do Brasil",
+      "question": "Qual é a escala do mercado de crédito?",
+      "description": "A evolução do saldo em relação ao PIB dimensiona a relevância do financiamento na economia. Recursos livres e direcionados têm trajetórias distintas.",
+      "note": "Indicador de tamanho do mercado. Uma expansão do saldo não mede, por si só, a intensidade do repasse às taxas de crédito.",
+      "image": "figuras/motivacao/credito-pib.png",
+      "dataFile": "dados/motivacao/credito_pct_pib.csv"
+    },
+    {
+      "id": "spread-internacional",
+      "theme": "Escala e custo",
+      "title": "Spread de juros na comparação internacional",
+      "source": "Banco Mundial",
+      "question": "Em que contexto de custo o repasse brasileiro ocorre?",
+      "description": "O Brasil apresenta spread elevado na comparação disponível. A margem entre taxas de empréstimo e de captação ajuda a contextualizar o custo da intermediação.",
+      "note": "Última observação disponível por país entre 2017 e 2024. Os anos diferem; a figura descreve ordens de magnitude, não uma comparação no mesmo ano ou uma relação causal.",
+      "image": "figuras/motivacao/spread-internacional.png",
+      "dataFile": "dados/motivacao/spread_internacional_ultimo.csv"
+    },
+    {
+      "id": "composicao",
+      "theme": "Segmentação e spreads",
+      "title": "Composição do saldo: crédito livre e direcionado",
+      "source": "Banco Central do Brasil",
+      "question": "Quanto do mercado opera em cada regime de recursos?",
+      "description": "A participação de recursos livres e direcionados muda ao longo do tempo. Mesmo com modalidades estáveis, mudanças de composição podem alterar o agregado.",
+      "note": "A composição fornece contexto institucional. Não identifica separadamente o efeito do direcionamento de recursos sobre os coeficientes estimados.",
+      "image": "figuras/motivacao/composicao.png",
+      "dataFile": "dados/motivacao/credito_pct_pib.csv"
+    },
+    {
+      "id": "tjlp-tlp",
+      "theme": "Taxas de referência",
+      "title": "TJLP, TLP e Selic meta",
+      "source": "Banco Central do Brasil",
+      "question": "As referências do financiamento acompanham a Selic?",
+      "description": "TJLP e TLP seguem regras e trajetórias próprias. A transição para a TLP em 2018 não elimina as diferenças de nível e dinâmica entre os indexadores.",
+      "note": "Taxas apresentadas em percentual ao ano. A coexistência de referências distintas motiva uma análise por modalidade, sem provar um mecanismo causal de repasse.",
+      "image": "figuras/motivacao/tjlp-tlp.png",
+      "dataFile": "dados/motivacao/taxas_mensais.csv"
+    },
+    {
+      "id": "spread-livre",
+      "theme": "Segmentação e spreads",
+      "title": "Spreads das novas operações de crédito livre",
+      "source": "Banco Central do Brasil",
+      "question": "Famílias e empresas enfrentam os mesmos spreads?",
+      "description": "O diferencial entre a taxa de crédito livre e a Selic é maior para famílias. O agregado combina tomadores com condições de risco e precificação diferentes.",
+      "note": "Spread em pontos percentuais: taxa de crédito anual menos Selic anual. Diferenças descritivas de spread não isolam as causas do repasse heterogêneo.",
+      "image": "figuras/motivacao/spread-livre.png",
+      "dataFile": "dados/motivacao/spread_operacoes_nao_direcionadas.csv"
+    },
+    {
+      "id": "credito-bis",
+      "theme": "Comparação internacional",
+      "title": "Crédito ao setor privado não financeiro (% do PIB)",
+      "source": "Bank for International Settlements (BIS)",
+      "question": "Como a profundidade financeira difere entre países?",
+      "description": "O crédito ao setor privado não financeiro dimensiona o mercado brasileiro em relação ao americano. A comparação complementa a análise das taxas e dos spreads.",
+      "note": "O conceito de crédito do BIS difere do saldo bancário do BCB. Maior profundidade financeira não implica, por si só, maior repasse de surpresas monetárias.",
+      "image": "figuras/motivacao/credito-bis.png",
+      "dataFile": "dados/motivacao/credito_gdp_bis.csv"
+    },
+    {
+      "id": "selic-tr",
+      "theme": "Taxas de referência",
+      "title": "Selic meta e Taxa Referencial (TR)",
+      "source": "Banco Central do Brasil",
+      "question": "Todos os indexadores respondem proporcionalmente à taxa básica?",
+      "description": "A TR apresenta movimentos amortecidos e descontínuos em relação à Selic. Contratos associados a regras específicas podem ter trajetórias distintas da taxa básica.",
+      "note": "A TR mensal está convertida para equivalente anual composto; a Selic é a taxa anual. A figura contextualiza regras de indexação, sem estimar seus efeitos causais.",
+      "image": "figuras/motivacao/selic-tr.png",
+      "dataFile": "dados/motivacao/taxas_mensais.csv"
     }
   ]
 }

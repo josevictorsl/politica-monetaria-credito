@@ -27,6 +27,9 @@ npm run preview
 - Comparação entre amostras histórica e atualizada, DI-30/DI-90/FF3.
 - Coeficientes e ICs de 95%, tabela técnica e exportação CSV da seleção.
 - Séries de surpresas em pontos-base com recorte de período e download.
+- Composição do crédito brasileiro: quatro segmentos e 45 modalidades/resíduos em julho de 2026, com detalhamento por segmento.
+- Distribuição acumulada do saldo pelos betas DI-30/DI-90, faixas de repasse e cobertura do mapeamento explicitamente separada.
+- Sete gráficos de motivação do estudo, com explicação, fonte, ampliação da imagem original e dados em CSV.
 - Metodologia, fontes, estudo completo em PDF e manifesto de versão.
 
 React, TypeScript, Vite, Tailwind CSS, Lucide e Plotly (carregado sob demanda). Sem servidor de aplicação ou coleta em tempo real.
@@ -38,16 +41,18 @@ O repositório contém somente os dados selecionados para o site e o PDF. O pipe
 Requer Python 3.10 ou superior. Na estrutura local original, basta:
 
 ```bash
-python scripts/exportar_dados.py --version 2026.1
+python scripts/exportar_dados.py --version 2026.2
 ```
 
 Em outro computador, indique a pasta que contém `saidas/` e `documentos/`:
 
 ```bash
-python scripts/exportar_dados.py --source-root "CAMINHO_DA_PESQUISA" --version 2026.2
+python scripts/exportar_dados.py --source-root "CAMINHO_DA_PESQUISA" --version 2026.3
 ```
 
 O exportador confere unicidade, dados finitos, contagens, âncoras brasileiras, equivalência das tabelas americanas e números de observações dos painéis. As datas americanas são recuperadas das linhas completas usadas nos modelos. Os hashes SHA-256 dos arquivos usados são gravados no manifesto.
+
+Para a composição, confere saldo e participações de cada modalidade, fechamento dos quatro segmentos, correspondência com a última observação histórica e equivalência de cada beta com a regressão completa. Preserva os ajustes de arredondamento assinados e os mapeamentos aproximados. A cobertura de 90,64% e as faixas de beta são conferidas com as âncoras do estudo. Os sete PNGs de motivação e suas cinco bases CSV são copiados das saídas da pesquisa e incluídos no manifesto.
 
 Revise os conteúdos e as âncoras do exportador ao alterar a amostra. Revise o PDF e o conjunto exportado antes de publicar. O site usa a precisão original dos CSVs; não copia números arredondados de apresentações.
 
@@ -60,6 +65,10 @@ Revise os conteúdos e as âncoras do exportador ao alterar a amostra. Revise o 
 - O recorte histórico das surpresas mostra a série disponível reconstruída, não uma comparação com cotações originais do artigo.
 - Selecionar datas no gráfico não executa uma nova regressão.
 - Não significância não prova ausência de efeito; estrelas testam beta = 0, não beta = 1.
+- Na distribuição, todas as participações usam o saldo nacional como denominador, mesmo ao filtrar um segmento. A curva não é renormalizada para 100%: apenas modalidades com beta entram nela.
+- Saldo de julho de 2026 pondera betas de regressões encerradas em abril de 2026. A distribuição é descritiva, não um coeficiente agregado, e não incorpora a incerteza dos betas.
+- A decomposição mostra as dez maiores entradas e agrupa as restantes nas barras; todas as 45 entradas, incluindo resíduos e ajustes, continuam na tabela e no CSV.
+- Figuras de motivação contextualizam os resultados. Anos internacionais heterogêneos e conceitos distintos de saldo são explicitados nas legendas.
 
 ## Verificação
 

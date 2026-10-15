@@ -5,9 +5,11 @@ import { base, countries, dateLabel, downloadCsv, num, research, samples, shockL
 import type { Country, Sample, Shock } from './types';
 import Forest from './components/Forest';
 import Chart from './components/Chart';
+import BrazilCredit from './pages/BrazilCredit';
+import Motivation from './pages/Motivation';
 
 const navigation = [
-  ['/', 'Visão geral'], ['/resultados', 'Resultados'], ['/surpresas', 'Surpresas monetárias'], ['/metodologia', 'Metodologia'], ['/pesquisa', 'A pesquisa'],
+  ['/', 'Visão geral'], ['/motivacao', 'Motivação'], ['/resultados', 'Resultados'], ['/brasil', 'Crédito no Brasil'], ['/surpresas', 'Surpresas monetárias'], ['/metodologia', 'Metodologia'], ['/pesquisa', 'A pesquisa'],
 ];
 const brHighlight = research.estimates.find(r => r.seriesId === 'agregados_livre_pj' && r.sample === 'full' && r.shock === 'DI90')!;
 const usHighlight = research.estimates.find(r => r.seriesId === 'us_0' && r.sample === 'full')!;
@@ -90,6 +92,7 @@ function Home() {
         <article className="insight-card"><div className="country-heading"><span className="country-code">US</span><span>ESTADOS UNIDOS</span><span className="pill">FF3</span></div><h3>Repasse mais disseminado<br />entre as séries analisadas.</h3><p>Diversas taxas apresentam coeficientes positivos. Em modalidades corporativas, as estimativas pontuais são superiores a um, com incerteza que precisa ser considerada.</p><div className="insight-bottom"><div><strong>{num(usHighlight.beta)}<span> β</span></strong><small>Commercial paper · não financeiras</small></div><a href="#/resultados?pais=US&modalidade=us_0" className="circle-link" aria-label="Explorar commercial paper nos Estados Unidos"><ArrowUpRight size={20} /></a></div></article>
       </div>
       <p className="caption"><Info size={14} /> Coeficientes condicionados ao desenho empírico. Um valor pontual acima de um não equivale, por si só, a rejeitar repasse unitário.</p>
+      <div className="exploration-links"><a href="#/motivacao"><span className="eyebrow">CONTEXTO E MOTIVAÇÃO</span><h3>Por que investigar o repasse?</h3><p>Sete gráficos sobre tamanho do mercado, spreads e taxas de referência.</p><span className="text-link">Conhecer a motivação <ArrowRight size={16} /></span></a><a href="#/brasil"><span className="eyebrow">A COMPOSIÇÃO IMPORTA</span><h3>O crédito brasileiro, por dentro.</h3><p>Explore a quebra do saldo e a distribuição acumulada ao longo dos betas.</p><span className="text-link">Explorar composição e distribuição <ArrowRight size={16} /></span></a></div>
     </section>
     <section className="process-section"><div className="container section-pad">
       <SectionHeading eyebrow="02 / ENTENDA A PESQUISA" title="Da surpresa à estimativa.">Três etapas para medir a resposta dos preços do crédito às decisões monetárias.</SectionHeading>
@@ -163,6 +166,7 @@ function Results({ params, navigate }: { params: URLSearchParams; navigate: (nex
     <div className="table-wrap" tabIndex={0} aria-label="Tabela de resultados com rolagem horizontal"><table><caption className="sr-only">Estimativas de {countries[country]}, medida {shockLabels[shock]}, com erro-padrão HC0.</caption><thead><tr><th scope="col">Modalidade / período</th><th scope="col">Amostra</th><th scope="col">β</th><th scope="col">Erro-padrão</th><th scope="col">IC 95%</th><th scope="col">p-valor</th><th scope="col">N</th><th scope="col">R²</th></tr></thead><tbody>{rows.map(r => <tr key={`${r.seriesId}-${r.sample}`} className={r.seriesId === selected.seriesId ? 'highlight-row' : ''}><th scope="row">{r.label}<small>{dateLabel(r.first)} — {dateLabel(r.last)}<br />{r.frequency}</small></th><td><span className={`sample-badge ${r.sample}`}>{samples[r.sample]}</span></td><td className="numeric"><strong>{num(r.beta)}</strong><sup>{stars(r.p)}</sup></td><td className="numeric">{num(r.se)}</td><td className="numeric">[{num(r.ciLow)}; {num(r.ciHigh)}]</td><td className="numeric">{r.p < .001 ? '< 0,001' : num(r.p, 3)}</td><td className="numeric">{r.n}</td><td className="numeric">{num(r.r2, 3)}</td></tr>)}</tbody></table></div>
     <p className="caption">*** p &lt; 0,01 · ** p &lt; 0,05 · * p &lt; 0,10. Testes em relação a β = 0; as estrelas não testam β = 1. R² da especificação sem constante.</p>
     <aside className="reading-note"><Info size={21} /><div><h3>Como ler esta comparação</h3><p>Os modelos não incluem constante e controlam duas defasagens da variação das taxas. As medidas FF3 e DI são distintas. Resultados imprecisos não demonstram ausência de efeito. No Brasil, as regressões principais terminam em abril de 2026; nos EUA, a série de hipoteca 5/1 termina em 2022.</p><a href="#/metodologia" className="text-link">Consultar hipóteses e limites <ArrowRight size={16} /></a></div></aside>
+    {country === 'BR' && <a className="credit-results-link" href={`#/brasil?choque=${shock}`}><div><span className="eyebrow">PONDERAÇÃO PELO TAMANHO DO MERCADO</span><h3>Como o saldo se distribui entre os betas?</h3><p>Veja a composição do crédito e a participação de cada modalidade na distribuição.</p></div><ArrowRight size={22} /></a>}
   </section>;
 }
 
@@ -217,6 +221,7 @@ function ResearchPage() {
     <div className="download-grid">
       {[
         ['dados/resultados.csv', 'Resultados principais', '62 estimativas · coeficientes, erros-padrão, períodos e precisão.', 'CSV'],
+        ['dados/composicao-brasil.csv', 'Composição do crédito brasileiro', '45 modalidades e resíduos · saldo, participações e betas por horizonte.', 'CSV'],
         ['dados/pesquisa.json', 'Dados do site', 'Estimativas e séries de surpresas, com metadados da versão.', 'JSON'],
         ['dados/manifesto.json', 'Manifesto de fontes', 'Rastreabilidade dos arquivos de origem por hashes SHA-256.', 'JSON'],
       ].map(([href, title, text, format]) => <a key={href} className="download-card" href={base + href} download><div><span className="pill">{format}</span><ArrowDownToLine size={19} /></div><h3>{title}</h3><p>{text}</p></a>)}
@@ -251,7 +256,7 @@ export default function App() {
   return <>
     <a className="skip-link" href="#main" onClick={e => { e.preventDefault(); main.current?.focus(); }}>Pular para o conteúdo</a>
     <header className="site-header"><div className="container header-inner"><a className="brand" href="#/" aria-label="Política Monetária e Crédito — início"><span className="brand-icon"><BarChart3 size={23} strokeWidth={1.7} /></span><span>Política Monetária<br /><strong>e Crédito</strong></span></a><nav className={menuOpen ? 'main-nav open' : 'main-nav'} aria-label="Navegação principal">{navigation.map(([route, title]) => <a key={route} href={`#${route}`} aria-current={path === route ? 'page' : undefined} onClick={() => setMenuOpen(false)}>{title}</a>)}</nav><a className="header-study" href={`${base}documentos/estudo-completo.pdf`} target="_blank" rel="noreferrer">Estudo completo <ArrowUpRight size={15} /></a><button className="menu-button" aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X size={23} /> : <Menu size={23} />}</button></div></header>
-    <main id="main" ref={main} tabIndex={-1}>{path === '/resultados' ? <Results params={params} navigate={navigate} /> : path === '/surpresas' ? <Surprises /> : path === '/metodologia' ? <Methodology /> : path === '/pesquisa' ? <ResearchPage /> : <Home />}</main>
+    <main id="main" ref={main} tabIndex={-1}>{path === '/resultados' ? <Results params={params} navigate={navigate} /> : path === '/brasil' ? <BrazilCredit params={params} navigate={navigate} /> : path === '/motivacao' ? <Motivation /> : path === '/surpresas' ? <Surprises /> : path === '/metodologia' ? <Methodology /> : path === '/pesquisa' ? <ResearchPage /> : <Home />}</main>
     <footer className="site-footer"><div className="container footer-top"><a href="#/" className="brand"><span className="brand-icon"><BarChart3 size={23} /></span><span>Política Monetária<br /><strong>e Crédito</strong></span></a><p>Uma pesquisa sobre o repasse monetário<br />no Brasil e nos Estados Unidos.</p><a href="#/pesquisa" className="text-link">Fontes e materiais <ArrowUpRight size={16} /></a></div><div className="container footer-bottom"><span>José Victor Santos Lopes · 2026</span><span>Versão {research.meta.version} · FGV EESP</span><a href="https://github.com/josevictorsl/politica-monetaria-credito" target="_blank" rel="noreferrer">GitHub <ArrowUpRight size={13} /></a></div></footer>
   </>;
 }

@@ -8,6 +8,7 @@ export const samples: Record<Sample, string> = { full: 'Atualizada', historical:
 export const shockLabels: Record<Shock, string> = { DI30: 'DI-30', DI90: 'DI-90', FF3: 'FF3' };
 export const num = (value: number, digits = 2) => new Intl.NumberFormat('pt-BR', { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(value);
 export const dateLabel = (value: string) => new Intl.DateTimeFormat('pt-BR', { timeZone: 'UTC' }).format(new Date(`${value}T00:00:00Z`));
+export const monthLabel = (value: string) => new Intl.DateTimeFormat('pt-BR', { timeZone: 'UTC', month: 'long', year: 'numeric' }).format(new Date(`${value}T00:00:00Z`));
 export const stars = (p: number) => p < .01 ? '***' : p < .05 ? '**' : p < .1 ? '*' : '';
 
 export function downloadCsv(filename: string, rows: Record<string, unknown>[]) {
