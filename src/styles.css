@@ -300,7 +300,8 @@ blockquote { border-left: 2px solid #a4b395; padding: 18px 22px; background: #f0
 .coefficient-example small { display: block; color: var(--muted); margin-top: 8px; font-size: 10px; line-height: 1.6; }
 .motivation-chart { padding: 9px 12px 0; margin-top: 18px; border: 1px solid #e3e7dd; background: #fff; border-radius: 3px; }
 .chart-shell { position: relative; }
-.chart-export { position: absolute; z-index: 3; top: 7px; right: 7px; min-height: 32px; padding: 6px 9px; border: 1px solid #cbd2c6; border-radius: 3px; background: rgba(253,253,249,.96); color: var(--ink); font-size: 9px; font-weight: 600; }
+.chart-export-group { position: absolute; z-index: 3; top: 7px; right: 7px; display: flex; gap: 5px; }
+.chart-export { position: static; min-height: 32px; padding: 6px 9px; border: 1px solid #cbd2c6; border-radius: 3px; background: rgba(253,253,249,.96); color: var(--ink); font-size: 9px; font-weight: 600; }
 .chart-export:hover { background: #eaf0e2; }
 .motivation-interpretation { display: flex; gap: 12px; align-items: flex-start; padding: 17px 19px; margin-top: 15px; background: #eff2e9; border-left: 2px solid #879b7b; }
 .motivation-interpretation > svg { color: var(--green); flex-shrink: 0; margin-top: 1px; }
@@ -372,6 +373,25 @@ blockquote { border-left: 2px solid #a4b395; padding: 18px 22px; background: #f0
 .branch-legend { display: flex; flex-wrap: wrap; gap: 17px; margin: 0 0 17px; }
 .significance-key { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; color: var(--muted); font-size: 10px; margin-bottom: 17px; }
 .credit-end-links { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 25px; margin-top: 30px; }
+.beta-share-card { margin-top: 18px; }
+.distribution-legend { margin-top: 22px; }
+.distribution-compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 17px; margin-top: 14px; align-items: stretch; }
+.distribution-compare-grid .cumulative-card { min-width: 0; padding-inline: 16px; }
+.distribution-compare-grid .chart-heading { align-items: flex-start; }
+.distribution-compare-grid .chart-heading h2 { font-size: 19px; }
+.distribution-compare-grid .chart-heading p { font-variant-numeric: tabular-nums; }
+.distribution-footnote { margin-top: 14px; }
+.icon-button { display: grid; place-items: center; width: 42px; height: 42px; flex-shrink: 0; border: 1px solid var(--line); border-radius: 50%; background: #fff; }
+.icon-button:hover { background: #edf1e6; }
+.presentation-trigger { flex-shrink: 0; }
+.presentation-dialog { width: min(1120px, calc(100vw - 40px)); max-width: none; max-height: calc(100vh - 40px); padding: clamp(18px, 3vw, 36px); border: 1px solid #d4dbcf; border-radius: 6px; color: var(--ink); background: var(--paper); box-shadow: 0 20px 70px #172f3d38; overflow: auto; }
+.presentation-dialog::backdrop { background: rgba(23,47,61,.68); backdrop-filter: blur(3px); }
+.presentation-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 18px; }
+.presentation-header h2 { font-family: Georgia, serif; font-size: clamp(24px, 3vw, 36px); margin-top: 8px; }
+.presentation-header p { color: var(--muted); font-size: 14px; margin-top: 9px; }
+.presentation-chart { padding: 12px 10px 0; border: 1px solid var(--line); border-radius: 4px; background: #fff; }
+.presentation-caption { display: flex; justify-content: space-between; gap: 22px; padding-top: 15px; color: var(--muted); font-size: 11px; line-height: 1.65; }
+.presentation-caption span:last-child { flex-shrink: 0; }
 .credit-table-details { margin-top: 0; }
 .credit-table-details .credit-table { margin-top: 22px; }
 .motivation-note { margin-top: 0; }
@@ -471,6 +491,7 @@ blockquote { border-left: 2px solid #a4b395; padding: 18px 22px; background: #f0
   .motivation-figure-heading { align-items: flex-start; flex-direction: column; gap: 18px; }
   .motivation-figure-heading h2 { font-size: 26px; }
   .motivation-figure-bottom { flex-direction: column; align-items: flex-start; gap: 17px; }
+  .distribution-compare-grid { grid-template-columns: 1fr; }
   .journey-grid { grid-template-columns: 1fr; }
   .journey-card { min-height: 175px; }
   .detail-profile { padding: 19px; }
@@ -600,6 +621,11 @@ blockquote { border-left: 2px solid #a4b395; padding: 18px 22px; background: #f0
   .detail-beta-grid { grid-template-columns: 1fr; }
   .robust-legend { font-size: 9px; gap: 9px; }
   .motivation-interpretation p { font-size: 11px; }
+  .presentation-dialog { width: calc(100vw - 16px); max-height: calc(100vh - 16px); padding: 16px 10px; }
+  .presentation-chart { padding: 5px 2px 0; }
+  .presentation-caption { flex-direction: column; gap: 8px; font-size: 10px; }
+  .presentation-caption span:last-child { flex-shrink: 1; }
+  .presentation-header p { font-size: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

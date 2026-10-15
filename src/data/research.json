@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "2026.3",
+    "version": "2026.4",
     "publishedDate": "2026-10-15",
     "title": "Política Monetária e Crédito",
     "author": "José Victor Santos Lopes",
@@ -7118,6 +7118,7 @@
       "theme": "Escala e custo",
       "title": "Crédito no Brasil (% do PIB)",
       "source": "Banco Central do Brasil",
+      "period": "2007–2025",
       "question": "Qual é a escala do mercado de crédito?",
       "description": "A evolução do saldo em relação ao PIB dimensiona a relevância do financiamento na economia. Recursos livres e direcionados têm trajetórias distintas.",
       "note": "Indicador de tamanho do mercado. Uma expansão do saldo não mede, por si só, a intensidade do repasse às taxas de crédito.",
@@ -7125,6 +7126,7 @@
       "dataFile": "dados/motivacao/credito_pct_pib.csv",
       "chart": {
         "kind": "line",
+        "xType": "linear",
         "xTitle": "Ano",
         "yTitle": "Percentual do PIB",
         "series": [
@@ -7441,6 +7443,7 @@
       "theme": "Escala e custo",
       "title": "Spread de juros na comparação internacional",
       "source": "Banco Mundial",
+      "period": "Última observação por país · 2017–2024",
       "question": "Em que contexto de custo o repasse brasileiro ocorre?",
       "description": "O Brasil apresenta spread elevado na comparação disponível. A margem entre taxas de empréstimo e de captação ajuda a contextualizar o custo da intermediação.",
       "note": "Última observação disponível por país entre 2017 e 2024. Os anos diferem; a figura descreve ordens de magnitude, não uma comparação no mesmo ano ou uma relação causal.",
@@ -7448,6 +7451,7 @@
       "dataFile": "dados/motivacao/spread_internacional_ultimo.csv",
       "chart": {
         "kind": "bar",
+        "xType": "linear",
         "xTitle": "Spread (p.p.)",
         "yTitle": "País · ano da observação",
         "markers": [],
@@ -7531,6 +7535,7 @@
       "theme": "Segmentação e spreads",
       "title": "Composição do saldo: crédito livre e direcionado",
       "source": "Banco Central do Brasil",
+      "period": "2007–2025",
       "question": "Quanto do mercado opera em cada regime de recursos?",
       "description": "A participação de recursos livres e direcionados muda ao longo do tempo. Mesmo com modalidades estáveis, mudanças de composição podem alterar o agregado.",
       "note": "A composição fornece contexto institucional. Não identifica separadamente o efeito do direcionamento de recursos sobre os coeficientes estimados.",
@@ -7538,6 +7543,7 @@
       "dataFile": "dados/motivacao/credito_pct_pib.csv",
       "chart": {
         "kind": "area",
+        "xType": "linear",
         "xTitle": "Ano",
         "yTitle": "Percentual do crédito total",
         "series": [
@@ -7754,6 +7760,7 @@
       "theme": "Taxas de referência",
       "title": "TJLP, TLP e Selic meta",
       "source": "Banco Central do Brasil",
+      "period": "2000–junho de 2026 · TLP a partir de 2018",
       "question": "As referências do financiamento acompanham a Selic?",
       "description": "TJLP e TLP seguem regras e trajetórias próprias. A transição para a TLP em 2018 não elimina as diferenças de nível e dinâmica entre os indexadores.",
       "note": "Taxas apresentadas em percentual ao ano. A coexistência de referências distintas motiva uma análise por modalidade, sem provar um mecanismo causal de repasse.",
@@ -7761,6 +7768,7 @@
       "dataFile": "dados/motivacao/taxas_mensais.csv",
       "chart": {
         "kind": "line",
+        "xType": "date",
         "xTitle": "Data",
         "yTitle": "Percentual ao ano",
         "series": [
@@ -11505,6 +11513,7 @@
       "theme": "Segmentação e spreads",
       "title": "Spreads das novas operações de crédito livre",
       "source": "Banco Central do Brasil",
+      "period": "2000–2026 · observações de 2026 parciais",
       "question": "Famílias e empresas enfrentam os mesmos spreads?",
       "description": "O diferencial entre a taxa de crédito livre e a Selic é maior para famílias. O agregado combina tomadores com condições de risco e precificação diferentes.",
       "note": "Spread em pontos percentuais: taxa de crédito anual menos Selic anual. Diferenças descritivas de spread não isolam as causas do repasse heterogêneo.",
@@ -11512,6 +11521,7 @@
       "dataFile": "dados/motivacao/spread_operacoes_nao_direcionadas.csv",
       "chart": {
         "kind": "line",
+        "xType": "linear",
         "xTitle": "Ano",
         "yTitle": "Taxa de crédito menos Selic (p.p.)",
         "series": [
@@ -11914,6 +11924,7 @@
       "theme": "Comparação internacional",
       "title": "Crédito ao setor privado não financeiro (% do PIB)",
       "source": "Bank for International Settlements (BIS)",
+      "period": "2000–2025 · frequência trimestral",
       "question": "Como a profundidade financeira difere entre países?",
       "description": "O crédito ao setor privado não financeiro dimensiona o mercado brasileiro em relação ao americano. A comparação complementa a análise das taxas e dos spreads.",
       "note": "O conceito de crédito do BIS difere do saldo bancário do BCB. Maior profundidade financeira não implica, por si só, maior repasse de surpresas monetárias.",
@@ -11921,6 +11932,7 @@
       "dataFile": "dados/motivacao/credito_gdp_bis.csv",
       "chart": {
         "kind": "line",
+        "xType": "date",
         "xTitle": "Ano",
         "yTitle": "Percentual do PIB",
         "series": [
@@ -12983,6 +12995,7 @@
       "theme": "Taxas de referência",
       "title": "Selic meta e Taxa Referencial (TR)",
       "source": "Banco Central do Brasil",
+      "period": "2000–junho de 2026",
       "question": "Todos os indexadores respondem proporcionalmente à taxa básica?",
       "description": "A TR apresenta movimentos amortecidos e descontínuos em relação à Selic. Contratos associados a regras específicas podem ter trajetórias distintas da taxa básica.",
       "note": "A TR mensal está convertida para equivalente anual composto; a Selic é a taxa anual. A figura contextualiza regras de indexação, sem estimar seus efeitos causais.",
@@ -12990,6 +13003,7 @@
       "dataFile": "dados/motivacao/taxas_mensais.csv",
       "chart": {
         "kind": "line",
+        "xType": "date",
         "xTitle": "Data",
         "yTitle": "Percentual ao ano",
         "series": [

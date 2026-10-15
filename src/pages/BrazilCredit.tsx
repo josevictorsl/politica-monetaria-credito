@@ -39,7 +39,6 @@ export default function BrazilCredit({ params, navigate }: { params: URLSearchPa
   const activeDetail = selected.find(r => r.id === requestedDetail) || null;
   const chooseDetail = (id: string) => update({ modalidade: id });
   const mapped = useMemo(() => selected.filter(r => r.estimates[shock] !== null).sort((a, b) => a.estimates[shock]!.beta - b.estimates[shock]!.beta), [selected, shock]);
-  const coverage = mapped.reduce((sum, r) => sum + r.shareTotal, 0);
   const unmapped = selected.filter(r => r.estimates[shock] === null).reduce((sum, r) => sum + r.shareTotal, 0);
   const bins = [
     { label: 'β ≤ 0', description: 'Estimativa não positiva', value: mapped.filter(r => r.estimates[shock]!.beta <= 0).reduce((s, r) => s + r.shareTotal, 0) },
@@ -47,6 +46,12 @@ export default function BrazilCredit({ params, navigate }: { params: URLSearchPa
     { label: 'β > 1', description: 'Estimativa acima de um', value: mapped.filter(r => r.estimates[shock]!.beta > 1).reduce((s, r) => s + r.shareTotal, 0) },
     { label: 'Sem beta', description: 'Saldo não mapeado', value: unmapped },
   ];
+  const binChart = useMemo(() => {
+    const binColors = ['#8c6a5b', '#326658', '#a87747', '#bec5bb'];
+    const data: Data[] = bins.map((bin, index) => ({ type: 'bar', orientation: 'h', name: bin.label, x: [bin.value], y: ['Saldo nacional'], marker: { color: binColors[index] }, text: [`${bin.label}<br>${num(bin.value)}% do saldo nacional`], hovertemplate: '%{text}<extra></extra>' }));
+    const layout: Partial<Layout> = { barmode: 'stack', margin: { l: 8, r: 8, t: 8, b: 43 }, showlegend: true, legend: { orientation: 'h', x: 0, y: 1.45, font: { size: 10 } }, xaxis: { range: [0, 100], ticksuffix: '%', gridcolor: '#e7e9e1', title: { text: 'Participação no saldo total do Brasil', standoff: 11 } }, yaxis: { showticklabels: false, showgrid: false, zeroline: false } };
+    return { data, layout };
+  }, [bins.map(bin => bin.value).join('|')]);
   const compositionChart = useMemo(() => ({
     data: [{ type: 'pie', labels: credit.branches.map(b => b.label), values: credit.branches.map(b => b.value), hole: .70, sort: false, direction: 'clockwise', textinfo: 'none', marker: { colors: credit.branches.map(b => colors[b.id]), line: { color: '#fdfdf9', width: 3 } }, pull: credit.branches.map(b => b.id === branch ? .05 : 0), text: credit.branches.map(b => `${b.label}<br>${num(b.shareTotal)}% do saldo total<br>R$ ${num(b.value / 1000)} bilhões`), hovertemplate: '%{text}<extra></extra>' }] as Data[],
     layout: { margin: { l: 10, r: 10, t: 12, b: 12 }, showlegend: false, annotations: [{ text: `BRASIL<br><b>R$ ${num(credit.total / 1e6)} tri</b><br>${monthLabel(credit.date)}`, x: .5, y: .5, showarrow: false, font: { size: 13, color: '#172f3d' } }] } as Partial<Layout>,
@@ -62,27 +67,32 @@ export default function BrazilCredit({ params, navigate }: { params: URLSearchPa
     const layout: Partial<Layout> = { margin: { l: compact ? 142 : 240, r: 22, t: 10, b: 65 }, showlegend: false, dragmode: false, xaxis: { title: { text: 'Participação no saldo total (%)', standoff: 14 }, gridcolor: '#e7e9e1', zerolinecolor: '#acb5a9', rangemode: 'tozero' }, yaxis: { tickmode: 'array', tickvals: top.map((_, i) => i), ticktext: top.map(r => wrap(r.label, compact ? 22 : 36)), range: [top.length - .5, -.5], tickfont: { size: compact ? 9 : 11 }, showgrid: false, zeroline: false } };
     return { data, layout, height: top.length * 47 + 85 };
   }, [selected, branch, compact, requestedDetail]);
-  const cumulativeChart = useMemo(() => {
-    let cumulative = 0;
-    const ordered = mapped.map(r => ({ ...r, cumulative: cumulative += r.shareTotal }));
-    const min = ordered[0].estimates[shock]!.beta;
-    const max = ordered[ordered.length - 1].estimates[shock]!.beta;
+  const distributionRows = useMemo(() => {
+    const bothBetas = selected.flatMap(r => [r.estimates.DI30?.beta, r.estimates.DI90?.beta]).filter((v): v is number => v !== undefined);
+    return { min: Math.min(...bothBetas), max: Math.max(...bothBetas) };
+  }, [selected]);
+  const distributions = useMemo(() => {
+    const { min, max } = distributionRows;
     const padding = Math.max((max - min) * .06, .4);
-    const data: Data[] = [{ type: 'scatter', mode: 'lines', name: 'Saldo acumulado', x: [min - padding, ...ordered.map(r => r.estimates[shock]!.beta), max + padding], y: [0, ...ordered.map(r => r.cumulative), cumulative], line: { shape: 'hv', color: '#326658', width: 2 }, fill: 'tozeroy', fillcolor: 'rgba(50,102,88,.10)', hoverinfo: 'skip' }];
-    for (const segment of credit.branches) {
-      const subset = ordered.filter(r => r.branch === segment.id);
-      if (!subset.length) continue;
-      data.push({ type: 'scatter', mode: 'markers', name: segment.label,
-        x: subset.map(r => r.estimates[shock]!.beta), y: subset.map(r => r.cumulative),
-        customdata: subset.map(r => r.id), marker: { color: subset.map(r => colors[r.branch]), size: subset.map(r => 6 + Math.sqrt(r.shareTotal) * 3), opacity: subset.map(r => !requestedDetail || r.id === requestedDetail ? 1 : .35), symbol: subset.map(r => r.estimates[shock]!.p < .05 ? 'circle' : r.estimates[shock]!.p < .10 ? 'diamond' : 'circle-open'), line: { width: 1.5 } },
-        text: subset.map(r => `${r.label}<br>${branchLabel(r.branch)}<br>β = ${num(r.estimates[shock]!.beta)} · p = ${num(r.estimates[shock]!.p, 3)}<br>Modalidade: ${num(r.shareTotal)}% do saldo total<br>Acumulado: ${num(r.cumulative)}% do saldo total<br>Mapeamento ${r.mapping}`), hovertemplate: '%{text}<extra></extra>' });
-    }
-    const layout: Partial<Layout> = { margin: { l: compact ? 50 : 65, r: 20, t: 25, b: 70 }, showlegend: false, dragmode: 'zoom', xaxis: { title: { text: `Coeficiente de repasse · ${shockLabels[shock]}`, standoff: 16 }, range: [min - padding, max + padding], zeroline: false, gridcolor: '#e7e9e1' }, yaxis: { title: { text: 'Saldo acumulado (%)', standoff: 10 }, range: [0, 105], ticksuffix: '%', gridcolor: '#e7e9e1', zeroline: false }, shapes: [
-      ...[0, 1].map(value => ({ type: 'line' as const, x0: value, x1: value, y0: 0, y1: 1, xref: 'x' as const, yref: 'paper' as const, line: { color: value === 0 ? '#a9b0a4' : '#a87747', width: 1, dash: 'dot' as const }, layer: 'below' as const })),
-      { type: 'line', x0: 0, x1: 1, y0: 100, y1: 100, xref: 'paper', yref: 'y', line: { color: '#acb5a9', width: 1, dash: 'dash' }, layer: 'below' },
-    ], annotations: [{ x: max + padding, y: cumulative, text: `${num(cumulative)}% mapeado`, showarrow: false, xanchor: 'right', yshift: -20, bgcolor: '#fdfdf9', font: { color: '#326658', size: 11 } }] };
-    return { data, layout };
-  }, [mapped, shock, compact, requestedDetail]);
+    return (['DI30', 'DI90'] as const).map(horizon => {
+      let cumulative = 0;
+      const ordered = selected.filter(r => r.estimates[horizon] !== null).sort((a, b) => a.estimates[horizon]!.beta - b.estimates[horizon]!.beta).map(r => ({ ...r, cumulative: cumulative += r.shareTotal }));
+      const data: Data[] = [{ type: 'scatter', mode: 'lines', name: 'Saldo acumulado', x: [min - padding, ...ordered.map(r => r.estimates[horizon]!.beta), max + padding], y: [0, ...ordered.map(r => r.cumulative), cumulative], line: { shape: 'hv', color: '#326658', width: 2 }, fill: 'tozeroy', fillcolor: 'rgba(50,102,88,.10)', hoverinfo: 'skip' }];
+      for (const segment of credit.branches.filter(b => branch === 'all' || b.id === branch)) {
+        const subset = ordered.filter(r => r.branch === segment.id);
+        if (!subset.length) continue;
+        data.push({ type: 'scatter', mode: 'markers', name: segment.label,
+          x: subset.map(r => r.estimates[horizon]!.beta), y: subset.map(r => r.cumulative),
+          customdata: subset.map(r => r.id), marker: { color: subset.map(r => colors[r.branch]), size: subset.map(r => 6 + Math.sqrt(r.shareTotal) * 3), opacity: subset.map(r => !requestedDetail || r.id === requestedDetail ? 1 : .35), symbol: subset.map(r => r.estimates[horizon]!.p < .05 ? 'circle' : r.estimates[horizon]!.p < .10 ? 'diamond' : 'circle-open'), line: { width: 1.5 } },
+          text: subset.map(r => `${r.label}<br>${branchLabel(r.branch)}<br>β = ${num(r.estimates[horizon]!.beta)} · p = ${num(r.estimates[horizon]!.p, 3)}<br>Modalidade: ${num(r.shareTotal)}% do saldo total<br>Acumulado: ${num(r.cumulative)}% do saldo total<br>Mapeamento ${r.mapping}`), hovertemplate: '%{text}<extra></extra>' });
+      }
+      const layout: Partial<Layout> = { margin: { l: compact ? 50 : 65, r: 20, t: 25, b: 70 }, showlegend: false, dragmode: 'zoom', xaxis: { title: { text: `Coeficiente de repasse · ${shockLabels[horizon]}`, standoff: 16 }, range: [min - padding, max + padding], zeroline: false, gridcolor: '#e7e9e1' }, yaxis: { title: { text: 'Saldo acumulado (%)', standoff: 10 }, range: [0, 105], ticksuffix: '%', gridcolor: '#e7e9e1', zeroline: false }, shapes: [
+        ...[0, 1].map(value => ({ type: 'line' as const, x0: value, x1: value, y0: 0, y1: 1, xref: 'x' as const, yref: 'paper' as const, line: { color: value === 0 ? '#a9b0a4' : '#a87747', width: 1, dash: 'dot' as const }, layer: 'below' as const })),
+        { type: 'line', x0: 0, x1: 1, y0: 100, y1: 100, xref: 'paper', yref: 'y', line: { color: '#acb5a9', width: 1, dash: 'dash' }, layer: 'below' },
+      ], annotations: [{ x: max + padding, y: cumulative, text: `${num(cumulative)}% mapeado`, showarrow: false, xanchor: 'right', yshift: -20, bgcolor: '#fdfdf9', font: { color: '#326658', size: 11 } }] };
+      return { shock: horizon, coverage: cumulative, count: ordered.length, data, layout };
+    });
+  }, [selected, branch, compact, requestedDetail, distributionRows]);
   const exportSelection = () => downloadCsv(`distribuicao-brasil-${shock}-${branch}.csv`, selected.map(r => {
     const e = r.estimates[shock];
     return { referencia_saldo: credit.date, segmento: branchLabel(r.branch), modalidade: r.label, saldo_milhoes_reais: r.value, participacao_saldo_total_pct: r.shareTotal, participacao_segmento_pct: r.shareBranch, surpresa: shockLabels[shock], beta: e?.beta ?? '', erro_padrao_HC0: e?.se ?? '', p_valor: e?.p ?? '', observacoes: e?.n ?? '', primeira_reuniao: e?.first ?? '', ultima_reuniao: e?.last ?? '', ic95_inferior: e?.ciLow ?? '', ic95_superior: e?.ciHigh ?? '', mapeamento: r.mapping, serie_taxa: r.rateSeriesId ?? '', versao: research.meta.version };
@@ -99,7 +109,15 @@ export default function BrazilCredit({ params, navigate }: { params: URLSearchPa
     <section className="credit-distribution" data-testid="credit-distribution"><div className="section-heading"><span className="eyebrow">02 / SALDO AO LONGO DOS BETAS</span><h2>Quanto do mercado está em cada faixa de repasse?</h2><p>A distribuição pondera as estimativas pontuais pelo saldo de cada modalidade. Um salto maior na curva indica maior participação no mercado.</p></div>
       <div className="beta-bins">{bins.map(bin => <div key={bin.label}><span>{bin.label}</span><strong>{num(bin.value)}<small>%</small></strong><p>{bin.description}</p></div>)}</div>
       <p className="caption">{branch === 'all' ? 'Participações no saldo total do Brasil, incluindo modalidades não mapeadas. Diferenças de 0,01 ponto percentual na soma podem ocorrer por arredondamento.' : `Participações de ${branchLabel(branch)} no saldo total do Brasil. As quatro faixas somam a participação desse segmento, não 100%.`}</p>
-      <article className="chart-card cumulative-card"><div className="chart-heading"><div><h2>Distribuição acumulada · {shockLabels[shock]}</h2><p>{mapped.length} modalidades mapeadas · {num(coverage)}% do saldo nacional</p></div><span className="pill">Função escada</span></div><div className="branch-legend">{credit.branches.filter(b => branch === 'all' || b.id === branch).map(b => <span key={b.id}><i style={{ background: colors[b.id] }} />{b.label}</span>)}</div><Chart {...cumulativeChart} height={440} onPointClick={chooseDetail} label={`Distribuição acumulada do saldo por coeficiente ${shockLabels[shock]}. Clique em um marcador para abrir a ficha. A curva termina em ${num(coverage)}% do saldo total; modalidades sem beta não entram na curva.`} /><div className="significance-key"><span>● p &lt; 0,05</span><span>◆ 0,05 ≤ p &lt; 0,10</span><span>○ p ≥ 0,10</span></div><p className="chart-footnote">Área e linha: saldo acumulado. Tamanho dos marcadores: participação no saldo. Formato: significância frente a β = 0, não frente a β = 1. Clique em um ponto para comparar DI-30 e DI-90 na ficha da modalidade.</p></article>
+      <article className="chart-card beta-share-card"><div className="chart-heading"><div><h2>Composição do saldo por faixa de beta · {shockLabels[shock]}</h2><p>Denominador fixo: saldo total nacional. A parcela sem beta fica identificada.</p></div><span className="pill">Estimativas pontuais</span></div><Chart data={binChart.data} layout={binChart.layout} height={125} plotId="saldo-faixas-beta" label={`Composição do saldo pelas faixas de beta ${shockLabels[shock]}. Valores absolutos no painel; quando há filtro de segmento, as barras mostram sua participação no saldo nacional, sem renormalização.`} /><p className="chart-footnote">β não positivo, parcial, acima de um e sem mapeamento. As faixas classificam pontos estimados; não incorporam a incerteza individual de cada modalidade.</p></article>
+      <div className="branch-legend distribution-legend">{credit.branches.filter(b => branch === 'all' || b.id === branch).map(b => <span key={b.id}><i style={{ background: colors[b.id] }} />{b.label}</span>)}</div>
+      <p className="compare-explainer">Cada painel usa a mesma escala horizontal e o mesmo denominador; assim, as diferenças entre DI-30 e DI-90 ficam diretamente comparáveis.</p>
+      <div className="distribution-compare-grid">{distributions.map(distribution => <article className="chart-card cumulative-card" key={distribution.shock}>
+        <div className="chart-heading"><div><h2>Saldo acumulado · {shockLabels[distribution.shock]}</h2><p>{distribution.count} modalidades mapeadas · {num(distribution.coverage)}% do saldo nacional</p></div><span className="pill">Função escada</span></div>
+        <Chart data={distribution.data} layout={distribution.layout} height={410} plotId={`saldo-beta-${distribution.shock}`} downloadName={`distribuicao-saldo-beta-${distribution.shock.toLowerCase()}-${branch}`} onPointClick={chooseDetail} label={`Distribuição acumulada do saldo por coeficiente ${shockLabels[distribution.shock]}. Escala horizontal idêntica à figura ao lado. Clique em um marcador para selecionar a modalidade. Cobertura ${num(distribution.coverage)}% do saldo total.`} />
+        <div className="significance-key"><span>● p &lt; 0,05</span><span>◆ 0,05 ≤ p &lt; 0,10</span><span>○ p ≥ 0,10</span></div>
+      </article>)}</div>
+      <p className="chart-footnote distribution-footnote">Os dois painéis usam o mesmo denominador (saldo total) e a mesma escala de beta ({num(distributionRows.min)} a {num(distributionRows.max)}). Área e linha mostram saldo acumulado; tamanho dos marcadores, a participação de cada modalidade. Formato do marcador indica significância contra β = 0, não contra β = 1. Clique no mesmo ponto em qualquer painel para abrir a ficha sincronizada.</p>
       <aside className="reading-note"><Info size={21} /><div><h3>O saldo sem beta permanece visível.</h3><p>{num(unmapped)}% do saldo nacional {branch !== 'all' ? `pertence ao segmento ${branchLabel(branch)} e ` : ''}não tem beta correspondente nesta seleção. Essa parcela não entra na curva e não representa repasse zero. A ponderação é uma síntese descritiva: não produz um coeficiente agregado do canal de crédito e não incorpora a incerteza dos betas.</p><p>Há mapeamentos aproximados, como o de renegociação para famílias. Os testes por modalidade são exploratórios e sujeitos a multiplicidade. Coeficientes negativos ou imprecisos não devem ser convertidos automaticamente em conclusões sobre mecanismos econômicos.</p></div></aside>
     </section>
     <div className="table-heading"><div><span className="eyebrow">DADOS DA DECOMPOSIÇÃO</span><h2>Saldo, modalidade e estimativa.</h2></div><button className="button secondary" onClick={exportSelection}><ArrowDownToLine size={16} />Baixar distribuição em CSV</button></div>

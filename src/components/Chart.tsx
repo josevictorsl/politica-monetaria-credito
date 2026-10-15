@@ -8,9 +8,11 @@ interface Props {
   height: number;
   onPointClick?: (id: string) => void;
   downloadName?: string;
+  downloadFormats?: ('png' | 'svg')[];
+  plotId?: string;
 }
 
-export default function Chart({ data, layout, label, height, onPointClick, downloadName }: Props) {
+export default function Chart({ data, layout, label, height, onPointClick, downloadName, downloadFormats = ['png'], plotId }: Props) {
   const container = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
 
@@ -51,16 +53,16 @@ export default function Chart({ data, layout, label, height, onPointClick, downl
     return () => { cancelled = true; observer?.disconnect(); cancelAnimationFrame(frame); if (plot && clickHandler) plot.removeAllListeners('plotly_click'); purge?.(); };
   }, [data, layout, height, onPointClick]);
 
-  const download = async () => {
+  const download = async (format: 'png' | 'svg') => {
     if (!container.current || !downloadName) return;
     const { default: Plotly } = await import('plotly.js-basic-dist-min');
-    await Plotly.downloadImage(container.current, { format: 'png', filename: downloadName, width: 1600, height: 900, scale: 1.5 });
+    await Plotly.downloadImage(container.current, { format, filename: downloadName, width: 1600, height: 900, scale: format === 'png' ? 1.5 : 1 });
   };
 
   return <div className="chart-shell" style={{ minHeight: height }}>
     {status === 'loading' && <div className="chart-loading" role="status">Carregando visualização…</div>}
     {status === 'error' && <div className="chart-loading" role="alert">Não foi possível carregar o gráfico. Os valores continuam disponíveis na tabela abaixo.</div>}
-    {downloadName && status === 'ready' && <button type="button" className="chart-export" onClick={() => void download()} aria-label={`Baixar gráfico: ${label}`} title="Baixar o gráfico em PNG">Baixar PNG</button>}
-    <div ref={container} role="img" aria-label={label} className="plot" data-testid="plot" />
+    {downloadName && status === 'ready' && <div className="chart-export-group" aria-label="Exportar gráfico">{downloadFormats.map(format => <button key={format} type="button" className="chart-export" onClick={() => void download(format)} title={`Baixar gráfico em ${format.toUpperCase()}`}>{format.toUpperCase()}</button>)}</div>}
+    <div ref={container} role="img" aria-label={label} className="plot" data-testid={plotId || 'plot'} />
   </div>;
 }

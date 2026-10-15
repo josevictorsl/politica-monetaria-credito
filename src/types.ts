@@ -54,10 +54,12 @@ export interface Research {
     question: string;
     description: string;
     note: string;
+    period: string;
     image: string;
     dataFile: string;
     chart: {
       kind: 'line' | 'area' | 'bar';
+      xType: 'linear' | 'date';
       xTitle: string;
       yTitle: string;
       markers: (number | string)[];

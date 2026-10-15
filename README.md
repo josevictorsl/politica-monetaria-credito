@@ -31,6 +31,8 @@ npm run preview
 - Distribuição acumulada do saldo pelos betas DI-30/DI-90, faixas de repasse e cobertura do mapeamento explicitamente separada.
 - Sete gráficos de motivação do estudo, com explicação, fonte, ampliação da imagem original e dados em CSV.
 - Gráficos de motivação interativos com tooltips, destaque de marcos e exportação em PNG.
+- Comparação DI-30/DI-90 sincronizada, modo de apresentação e exportação PNG/SVG com título, fonte e versão.
+- Comparação lado a lado em escalas idênticas e barra empilhada do saldo pelas faixas de beta.
 - Fichas por modalidade conectando saldo, participação no segmento e betas DI-30/DI-90.
 - Robustez brasileira HC0/HC3/HAC, janelas móveis HC3 e testes estruturais do corte de 2020.
 - Metodologia, fontes, estudo completo em PDF e manifesto de versão.
@@ -44,13 +46,13 @@ O repositório contém somente os dados selecionados para o site e o PDF. O pipe
 Requer Python 3.10 ou superior. Na estrutura local original, basta:
 
 ```bash
-python scripts/exportar_dados.py --version 2026.3
+python scripts/exportar_dados.py --version 2026.4
 ```
 
 Em outro computador, indique a pasta que contém `saidas/` e `documentos/`:
 
 ```bash
-python scripts/exportar_dados.py --source-root "CAMINHO_DA_PESQUISA" --version 2026.4
+python scripts/exportar_dados.py --source-root "CAMINHO_DA_PESQUISA" --version 2026.5
 ```
 
 O exportador confere unicidade, dados finitos, contagens, âncoras brasileiras, equivalência das tabelas americanas e números de observações dos painéis. As datas americanas são recuperadas das linhas completas usadas nos modelos. Os hashes SHA-256 dos arquivos usados são gravados no manifesto.
@@ -58,6 +60,8 @@ O exportador confere unicidade, dados finitos, contagens, âncoras brasileiras, 
 Para a composição, confere saldo e participações de cada modalidade, fechamento dos quatro segmentos, correspondência com a última observação histórica e equivalência de cada beta com a regressão completa. Preserva os ajustes de arredondamento assinados e os mapeamentos aproximados. A cobertura de 90,64% e as faixas de beta são conferidas com as âncoras do estudo. Os sete PNGs de motivação e suas cinco bases CSV são copiados das saídas da pesquisa e incluídos no manifesto.
 
 As sete figuras de motivação têm versões interativas geradas das mesmas bases: spreads internacionais com o ano individual por país; composição do crédito convertida para participação; séries TJLP/TLP/Selic separadas; spreads livres agregados por média anual; e comparações de crédito/PIB. O exportador também valida betas e p-valores HC0/HC3/HAC, janelas móveis HC3 e testes Chow/Wald antes de publicar a nova página de robustez.
+
+Os metadados de cada gráfico identificam o tipo do eixo horizontal (linear ou data) e o período de referência. As participações da composição são conferidas em 100% por período e as datas trimestrais do BIS permanecem datas, evitando uma escala temporal tratada como contínua numérica.
 
 Revise os conteúdos e as âncoras do exportador ao alterar a amostra. Revise o PDF e o conjunto exportado antes de publicar. O site usa a precisão original dos CSVs; não copia números arredondados de apresentações.
 
@@ -75,6 +79,8 @@ Revise os conteúdos e as âncoras do exportador ao alterar a amostra. Revise o 
 - A decomposição mostra as dez maiores entradas e agrupa as restantes nas barras; todas as 45 entradas, incluindo resíduos e ajustes, continuam na tabela e no CSV.
 - Figuras de motivação contextualizam os resultados. Anos internacionais heterogêneos e conceitos distintos de saldo são explicitados nas legendas.
 - A ficha interativa da modalidade apresenta os dois horizontes e suas amostras. O clique em pontos/barras seleciona o mesmo item, sem recomputar estatísticas.
+- As curvas DI-30/DI-90 compartilham limites de eixo; a barra por faixas inclui os betas mapeados e o saldo sem beta no mesmo denominador nacional.
+- A exportação do modo apresentação incorpora título, fonte, período e versão; o SVG é vetorial e o PNG destina-se a slides.
 - A exemplo de 10 pontos-base no painel, a resposta mostrada é uma escala linear do coeficiente estimado, não uma previsão nem um resultado reestimado.
 - Na robustez, os coeficientes são mantidos enquanto HC0/HC3/HAC alteram erros-padrão; janelas móveis são diagnósticos visuais, não testes independentes de quebra.
 
@@ -86,7 +92,7 @@ npm run build
 npm test
 ```
 
-Testes de integração em computador e celular verificam filtros, URLs, dados exportados, exclusão do evento emergencial, PDF, tooltips/gráficos, fichas de modalidade, PNGs, robustez, acessibilidade axe-core WCAG A/AA e ausência de transbordamento horizontal.
+Testes de integração em computador e celular verificam filtros, URLs, dados exportados, exclusão do evento emergencial, PDF, eixos/áreas/valores dos gráficos, escalas DI-30/DI-90, fichas de modalidade, exportações PNG/SVG, robustez, acessibilidade axe-core WCAG A/AA e ausência de transbordamento horizontal.
 
 ## Publicação
 
