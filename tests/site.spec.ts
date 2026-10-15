@@ -22,10 +22,10 @@ test('leitura inicial, navegação e PDF publicado', async ({ page, request }, t
 });
 
 test('conteúdo e controles atendem verificações WCAG AA', async ({ page }) => {
-  for (const route of ['/', '/motivacao', '/resultados', '/brasil', '/surpresas', '/metodologia', '/pesquisa']) {
+  for (const route of ['/', '/motivacao', '/resultados', '/brasil', '/robustez', '/surpresas', '/metodologia', '/pesquisa']) {
     await page.goto(`./#${route}`);
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-    if (['/resultados', '/brasil', '/surpresas'].includes(route)) {
+    if (['/resultados', '/brasil', '/robustez', '/surpresas', '/motivacao'].includes(route)) {
       await expect(page.locator('.chart-loading')).toHaveCount(0, { timeout: 30000 });
     }
     const audit = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
@@ -37,6 +37,8 @@ test('filtros mantêm consistência entre URL, tabela e CSV', async ({ page }) =
   await page.goto('./#/resultados?pais=BR&choque=DI90&modalidade=agregados_livre_pj');
   await expect(page.locator('tbody tr')).toHaveCount(2);
   await expect(page.locator('tbody tr').first()).toContainText('0,93');
+  await expect(page.locator('.coefficient-example')).toContainText('9,27 p.b.');
+  await expect(page.locator('.coefficient-example')).toContainText('[1,98; 16,56] p.b.');
   await page.getByLabel('Medida de surpresa').selectOption('DI30');
   await expect(page.locator('tbody tr').first()).toContainText('1,12');
   await page.getByLabel('Comparar amostra histórica e atualizada').uncheck();
@@ -84,7 +86,7 @@ test('layout cabe na tela e menu funciona no celular', async ({ page }, testInfo
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Como o repasse é estimado.');
     await expect(page.getByRole('button', { name: 'Abrir menu' })).toHaveAttribute('aria-expanded', 'false');
   }
-  for (const route of ['/', '/motivacao', '/resultados', '/brasil', '/surpresas', '/metodologia', '/pesquisa']) {
+  for (const route of ['/', '/motivacao', '/resultados', '/brasil', '/robustez', '/surpresas', '/metodologia', '/pesquisa']) {
     await page.goto(`./#${route}`);
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
@@ -137,13 +139,29 @@ test('sete figuras de motivação têm imagens, fontes e dados acessíveis', asy
   await page.goto('./#/motivacao');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Por que investigar o repasse?');
   await expect(page.locator('.motivation-figure')).toHaveCount(7);
-  await expect(page.locator('.motivation-figure img')).toHaveCount(7);
-  for (const link of await page.getByRole('link', { name: 'Ampliar figura', exact: true }).all()) {
+  await expect(page.locator('.motivation-figure .js-plotly-plot')).toHaveCount(7);
+  await expect(page.locator('.chart-loading')).toHaveCount(0, { timeout: 30000 });
+  const charts = await page.locator('.motivation-figure .js-plotly-plot').evaluateAll(nodes => nodes.map(node => (node as HTMLElement & { data: { name: string; x: (string | number)[]; y: number[] }[] }).data));
+  expect(charts[0].map(trace => trace.name)).toEqual(['Recursos livres', 'Recursos direcionados', 'Total']);
+  expect(charts[0][2].y.at(-1)).toBeCloseTo(56, 0);
+  expect(charts[1][0].x[charts[1][0].y.indexOf('Brazil')]).toBeCloseTo(32.52, 1);
+  expect(charts[2][0].y[10] + charts[2][1].y[10]).toBeCloseTo(100, 8);
+  expect(charts[3].map(trace => trace.name)).toEqual(['TJLP', 'TLP', 'Selic meta']);
+  await expect(page.locator('.chart-export')).toHaveCount(7);
+  const pngPromise = page.waitForEvent('download');
+  await page.locator('.chart-export').first().click();
+  const png = await pngPromise;
+  expect(png.suggestedFilename()).toBe('motivacao-credito-pib.png');
+  const pngStream = await png.createReadStream();
+  const pngBytes: Buffer[] = [];
+  for await (const chunk of pngStream!) pngBytes.push(Buffer.from(chunk));
+  expect(Buffer.concat(pngBytes).subarray(0, 8)).toEqual(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+  for (const link of await page.locator('.motivation-source a').filter({ hasText: 'Ver figura original do estudo' }).all()) {
     const response = await request.get((await link.getAttribute('href'))!);
     expect(response.status()).toBe(200);
     expect((await response.body()).subarray(0, 8)).toEqual(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
   }
-  for (const link of await page.getByRole('link', { name: 'Dados da figura', exact: true }).all()) {
+  for (const link of await page.locator('.motivation-source a[download]').all()) {
     const response = await request.get((await link.getAttribute('href'))!);
     expect(response.status()).toBe(200);
     expect((await response.text()).split('\n').length).toBeGreaterThan(2);
@@ -152,4 +170,42 @@ test('sete figuras de motivação têm imagens, fontes e dados acessíveis', asy
   await page.getByLabel('Gráficos por tema').selectOption('Taxas de referência');
   await expect(page.locator('.motivation-figure')).toHaveCount(2);
   await expect(page.locator('.motivation-gallery')).toContainText('equivalente anual composto');
+});
+
+test('robustez compara inferência sem confundi-la com quebra', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('./#/robustez');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('O que resiste a outras escolhas?');
+  await expect(page.locator('.robustness-errors-table tbody tr')).toHaveCount(3);
+  await expect(page.locator('.robustness-page .chart-export')).toHaveCount(2);
+  await expect(page.locator('.robustness-errors-table tbody')).toContainText('0,024');
+  await expect(page.locator('.robustness-chart .js-plotly-plot')).toHaveCount(2);
+  await expect(page.locator('.chart-loading')).toHaveCount(0, { timeout: 30000 });
+  await page.getByLabel('Medida de surpresa').selectOption('DI30');
+  await expect(page.locator('.robustness-errors-table tbody')).toContainText('0,044');
+  await page.getByLabel('Segmento estimado').selectOption('Direcionado: empresas');
+  await expect(page.locator('.robustness-chart .js-plotly-plot')).toHaveCount(1);
+  await expect(page.locator('.robustness-errors-table tbody tr')).toHaveCount(3);
+  await expect(page.locator('.robustness-page')).toContainText('Não rejeita a 5%');
+  expect(errors).toEqual([]);
+});
+
+test('seleção de modalidade conecta barra, curva acumulada e ficha dos dois horizontes', async ({ page }) => {
+  await page.goto('./#/brasil');
+  await expect(page.locator('.chart-loading')).toHaveCount(0, { timeout: 30000 });
+  await page.getByLabel('Modalidade selecionada').selectOption('livre_pj_20550');
+  await expect(page.locator('.detail-profile')).toContainText('Capital de giro');
+  await expect(page.locator('.detail-profile')).toContainText('DI-30');
+  await expect(page.locator('.detail-profile')).toContainText('DI-90');
+  await expect(page.locator('.detail-profile')).toContainText('1,85');
+  await expect(page.locator('.detail-profile')).toContainText('1,59');
+  await expect(page).toHaveURL(/modalidade=livre_pj_20550/);
+  await page.getByRole('button', { name: 'Limpar seleção' }).click();
+  await expect(page.locator('.detail-profile')).toHaveCount(0);
+  await page.locator('.cumulative-card .js-plotly-plot').evaluate(element => {
+    const plot = element as HTMLElement & { emit: (name: string, data: unknown) => void };
+    plot.emit('plotly_click', { points: [{ customdata: 'livre_pj_20550' }] });
+  });
+  await expect(page.locator('.detail-profile')).toContainText('Capital de giro');
 });

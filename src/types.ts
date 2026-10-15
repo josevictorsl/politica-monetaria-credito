@@ -56,7 +56,19 @@ export interface Research {
     note: string;
     image: string;
     dataFile: string;
+    chart: {
+      kind: 'line' | 'area' | 'bar';
+      xTitle: string;
+      yTitle: string;
+      markers: (number | string)[];
+      series: { label: string; points: { x: number | string; y: number | string; text?: string; color?: string }[] }[];
+    };
   }[];
+  brazilRobustness: {
+    comparisons: RobustnessEstimate[];
+    rolling: RollingEstimate[];
+    structural: { series: string; shock: BrazilShock; n: number; p: number; waldP: number; reject: boolean }[];
+  };
 }
 
 export type Branch = 'livre_pf' | 'livre_pj' | 'dir_pf' | 'dir_pj';
@@ -73,4 +85,24 @@ export interface CreditDetail {
   rateSeriesId: string | null;
   mapping: string;
   estimates: Record<BrazilShock, Pick<Estimate, 'beta' | 'se' | 'p' | 'n' | 'first' | 'last' | 'ciLow' | 'ciHigh'> | null>;
+}
+
+export interface RobustnessEstimate {
+  series: string;
+  shock: BrazilShock;
+  method: string;
+  beta: number;
+  se: number;
+  p: number;
+  n: number;
+  ciLow: number;
+  ciHigh: number;
+}
+
+export interface RollingEstimate {
+  seriesKey: string;
+  label: string;
+  shock: BrazilShock;
+  window: number;
+  points: { date: string; beta: number; low: number; high: number }[];
 }

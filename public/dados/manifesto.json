@@ -1,6 +1,6 @@
 {
-  "version": "2026.2",
-  "publishedDate": "2026-10-09",
+  "version": "2026.3",
+  "publishedDate": "2026-10-15",
   "title": "Política Monetária e Crédito",
   "author": "José Victor Santos Lopes",
   "confidence": "Intervalos de 95% por aproximação normal: beta ± 1,96 × erro-padrão HC0.",
@@ -20,6 +20,9 @@
     "saidas/dados_coletados/atualizacao_figuras_artigo_referencia/graficos/figura_13_credito_gdp_bis.png": "174a84c629f1fd6f9c7864f01228b5a605208bcc21eb830334c5b1971d1f02e1",
     "saidas/dados_coletados/atualizacao_figuras_artigo_referencia/dados_processados/credito_gdp_bis.csv": "f1c0d906fbea1e5d221b8aaa0b6d78af9bc63872e9e6ca57e27dcc0d67ab8cec",
     "saidas/dados_coletados/atualizacao_figuras_artigo_referencia/graficos/figura_14_selic_tr.png": "61261ab4fe05b2ced2622008f42e793c5a166bf53bf56a7ab23b6eb6ace56d52",
+    "saidas/resultados_regressoes/brasil_tempdisagg/tabelas/robustez_hac_newey_west_brasil.csv": "0430bb0d659607ffebd44cc95247a3f5445ef28c01fd5b119b42080e6b38f29a",
+    "saidas/resultados_regressoes/brasil_tempdisagg/dados/rolling_betas_brasil.csv": "4a16e7cb9e4a156aeb7320e2a2b86162b2424ef29c38266c892de0dd8b9c280f",
+    "saidas/resultados_regressoes/brasil_tempdisagg/tabelas/teste_chow_brasil_2020.csv": "0c3311a75bf10aa506cffafb1fd7aa57c584dc79d8d62d0225308b6a2b638905",
     "saidas/resultados_regressoes/eua_tempdisagg/tabelas/mapa_series_tempdisagg.csv": "edaca1160b396d6d5a8c9ec51c835eaaad411bfb1a36d83b81a4b3b5111cddfc",
     "saidas/resultados_regressoes/eua_tempdisagg/tabelas/regressoes_eua_fomc_tempdisagg.csv": "ec0d1837b9a2626197d82a9058a74f3f334a95990c5e8a7f68dd1532d644b9e1",
     "saidas/resultados_regressoes/eua_tempdisagg/tabelas/tabela_coeficientes_eua_ff3_scheduled_ate_2026.csv": "9b71f4a3c296912cf2bc5614008d1d45925b087a1a5c3ca0632708f6649e9e31",

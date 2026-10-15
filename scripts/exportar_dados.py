@@ -178,13 +178,88 @@ def motivation_files(root):
                 raise ValueError(f"Dados de motivação vazios: {relative_data}")
             data_files[data_name] = root / relative_data
         exported.append({key: value for key, value in figure.items() if key not in ["figure", "data"]} | dict(image="figuras/motivacao/" + figure["id"] + ".png", dataFile="dados/motivacao/" + data_name + ".csv"))
+    by_id = {figure["id"]: figure for figure in exported}
+    pib = rows(root, prefix + "dados_processados/credito_pct_pib.csv")
+    by_id["credito-pib"]["chart"] = dict(kind="line", xTitle="Ano", yTitle="Percentual do PIB", series=[
+        series_from(pib, "Recursos livres", "year", "credito_livre_pct_pib"),
+        series_from(pib, "Recursos direcionados", "year", "credito_dir_pct_pib"),
+        series_from(pib, "Total", "year", "credito_total_pct_pib"),
+    ], markers=[2015, 2018, 2025])
+    by_id["composicao"]["chart"] = dict(kind="area", xTitle="Ano", yTitle="Percentual do crédito total", series=[
+        series_from(pib, "Recursos livres", "year", "share_livre", derived=lambda r: number(r, "Saldo - Recursos Livres") / (number(r, "Saldo - Recursos Livres") + number(r, "Saldo - Recursos Direcionados")) * 100),
+        series_from(pib, "Recursos direcionados", "year", "share_direcionado", derived=lambda r: number(r, "Saldo - Recursos Direcionados") / (number(r, "Saldo - Recursos Livres") + number(r, "Saldo - Recursos Direcionados")) * 100),
+    ], markers=[2015, 2018, 2025])
+    spread = rows(root, prefix + "dados_processados/spread_internacional_ultimo.csv")
+    spread.sort(key=lambda r: number(r, "spread_pct"))
+    by_id["spread-internacional"]["chart"] = dict(kind="bar", xTitle="Spread (p.p.)", yTitle="País · ano da observação", markers=[], series=[dict(label="Spread", points=[dict(x=number(r, "spread_pct"), y=r["country"], text=f"{r['country']} · {r['year']}<br>{number(r, 'spread_pct'):.2f} p.p.", color="#ae5644" if r["country_code"] == "BRA" else "#385f7a") for r in spread])])
+    rates = rows(root, prefix + "dados_processados/taxas_mensais.csv")
+    filtered_rates = [r for r in rates if r["date"] >= "2000-01-01"]
+    by_id["tjlp-tlp"]["chart"] = dict(kind="line", xTitle="Data", yTitle="Percentual ao ano", series=[series_filter(filtered_rates, "TJLP", "date", "value", source_name="series_name", match="TJLP"), series_filter(filtered_rates, "TLP", "date", "value", source_name="series_name", match="TLP"), series_filter(filtered_rates, "Selic meta", "date", "value", source_name="series_name", match="Selic")], markers=["2018-01-01"])
+    spread_rows = rows(root, prefix + "dados_processados/spread_operacoes_nao_direcionadas.csv")
+    yearly = defaultdict(list)
+    labels = {"Agregados | livre": "Crédito livre · total", "Agregados | livre_pf": "Crédito livre · famílias", "Agregados | livre_pj": "Crédito livre · empresas"}
+    for r in spread_rows:
+        if r["series_name"] in labels and r["date"] >= "2000-01-01":
+            yearly[(r["date"][:4], r["series_name"])].append(number(r, "spread"))
+    annual_spread = [{"year": year, "series": series_name, "mean": sum(values) / len(values)} for (year, series_name), values in yearly.items()]
+    annual_spread.sort(key=lambda r: (r["series"], r["year"]))
+    by_id["spread-livre"]["chart"] = dict(kind="line", xTitle="Ano", yTitle="Taxa de crédito menos Selic (p.p.)", series=[series_filter(annual_spread, labels[name], "year", "mean", source_name="series", match=name) for name in labels], markers=[])
+    bis = [r for r in rows(root, prefix + "dados_processados/credito_gdp_bis.csv") if r["date"] >= "2000-01-01"]
+    by_id["credito-bis"]["chart"] = dict(kind="line", xTitle="Ano", yTitle="Percentual do PIB", series=[series_filter(bis, name, "date", "value", source_name="country", match=name) for name in ["Brasil", "Estados Unidos"]], markers=[])
+    by_id["selic-tr"]["chart"] = dict(kind="line", xTitle="Data", yTitle="Percentual ao ano", series=[series_filter(filtered_rates, "Selic meta", "date", "value", source_name="series_name", match="Selic"), series_filter(filtered_rates, "TR · anualização composta", "date", "value", source_name="series_name", match="TR")], markers=[])
     return exported, pictures, data_files
+
+
+def series_from(source, label, x_key, y_key, derived=None):
+    selected = [r for r in source if int(r[x_key]) >= 2000]
+    return dict(label=label, points=[dict(x=int(r[x_key]), y=derived(r) if derived else number(r, y_key), text=f"{int(r[x_key])} · {label}") for r in selected])
+
+
+def series_filter(source, label, x_key, y_key, source_name=None, match=None):
+    selected = [r for r in source if source_name is None or r[source_name] == match]
+    selected.sort(key=lambda r: r[x_key])
+    return dict(label=label, points=[dict(x=int(r[x_key]) if x_key == "year" else r[x_key], y=number(r, y_key), text=f"{label}<br>{r[x_key]}<br>{number(r, y_key):.2f}") for r in selected])
+
+
+def brazil_robustness(root, coefficients):
+    prefix = "saidas/resultados_regressoes/brasil_tempdisagg/"
+    robust = rows(root, prefix + "tabelas/robustez_hac_newey_west_brasil.csv")
+    selected_series = ["Crédito livre: empresas", "Crédito livre: famílias", "Direcionado: empresas", "Direcionado: famílias", "Crédito livre", "Crédito direcionado"]
+    methods = {"HC0": ("beta", "se_hc0", "p_hc0"), "HC3": ("beta", "se_hc3", "p_hc3"), "HAC · 4 defasagens": ("beta", "se_hac_nw_lag4", "p_hac_nw_lag4")}
+    comparisons = []
+    for series_name in selected_series:
+        for shock_label, shock in [("DI-30", "DI30"), ("DI-90", "DI90")]:
+            found = [r for r in robust if r["base_surpresa"] == "brasil_completo" and r["series"] == series_name and r["choque"] == shock_label]
+            if len(found) != 1:
+                raise ValueError(f"Robustez ausente ou duplicada: {series_name}/{shock_label}")
+            row = found[0]
+            for method, keys in methods.items():
+                beta, se, p = (number(row, key) for key in keys)
+                if se <= 0 or not 0 <= p <= 1:
+                    raise ValueError("Estatística de robustez inválida")
+                comparisons.append(dict(series=series_name, shock=shock, method=method, beta=beta, se=se, p=p, n=int(row["n_obs"]), ciLow=beta - 1.96 * se, ciHigh=beta + 1.96 * se))
+    rolling_rows = rows(root, prefix + "dados/rolling_betas_brasil.csv")
+    rolling = []
+    for series_key, label in [("Agregados | livre_pj", "Crédito livre · empresas"), ("Agregados | livre_pf", "Crédito livre · famílias")]:
+        for shock in ["DI30", "DI90"]:
+            points = [r for r in rolling_rows if r["series"] == series_key and r["choque"] == shock]
+            if not points:
+                raise ValueError(f"Janela móvel ausente: {series_key}/{shock}")
+            rolling.append(dict(seriesKey=series_key, label=label, shock=shock, window=60, points=[dict(date=r["window_end_date"], beta=number(r, "beta"), low=number(r, "ci_lower"), high=number(r, "ci_upper")) for r in points]))
+    chow = rows(root, prefix + "tabelas/teste_chow_brasil_2020.csv")
+    structural = [dict(series=r["series"], shock="DI30" if r["shock"] == "DI-30" else "DI90", n=int(r["n_total"]), p=number(r, "p_value"), waldP=number(r, "p_wald_hc0"), reject=r["reject_5pct"] == "Sim") for r in chow]
+    coefficient_series = {"Crédito livre: empresas": "agregados_livre_pj", "Crédito livre: famílias": "agregados_livre_pf", "Direcionado: empresas": "agregados_dir_pj", "Direcionado: famílias": "agregados_dir_pf", "Crédito livre": "agregados_livre", "Crédito direcionado": "agregados_dir"}
+    for result in comparisons:
+        source = [r for r in coefficients if r["base_surpresa"] == "brasil_completo" and r["series_id"] == coefficient_series[result["series"]] and r["choque"] == result["shock"]]
+        if len(source) != 1 or not math.isclose(number(source[0], "beta"), result["beta"], abs_tol=1e-12):
+            raise ValueError("Coeficiente robusto não confere com o resultado principal")
+    return dict(comparisons=comparisons, rolling=rolling, structural=structural)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source-root", type=Path, default=SITE.parent)
-    parser.add_argument("--version", default="2026.2")
+    parser.add_argument("--version", default="2026.3")
     args = parser.parse_args()
     root = args.source_root.resolve()
     results = []
@@ -192,6 +267,7 @@ def main():
     br = rows(root, br_path + "regressoes_brasil_tempdisagg_coeficientes.csv")
     credit = brazil_credit(root, br)
     motivation, pictures, motivation_data = motivation_files(root)
+    robustness = brazil_robustness(root, br)
     for series_id, label in BR_SERIES:
         for sample, base in [("full", "brasil_completo"), ("historical", "brasil_historico_2003_2019")]:
             for shock in ["DI30", "DI90"]:
@@ -263,7 +339,7 @@ def main():
                 sources=SOURCES)
     target = SITE / "src/data"
     target.mkdir(parents=True, exist_ok=True)
-    payload = dict(meta=meta, estimates=results, shocks=shocks, brazilCredit=credit, motivation=motivation)
+    payload = dict(meta=meta, estimates=results, shocks=shocks, brazilCredit=credit, motivation=motivation, brazilRobustness=robustness)
     (target / "research.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     documents = SITE / "public/documentos"
     documents.mkdir(parents=True, exist_ok=True)

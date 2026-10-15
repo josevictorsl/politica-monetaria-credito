@@ -6,9 +6,11 @@ interface Props {
   layout: Partial<Layout>;
   label: string;
   height: number;
+  onPointClick?: (id: string) => void;
+  downloadName?: string;
 }
 
-export default function Chart({ data, layout, label, height }: Props) {
+export default function Chart({ data, layout, label, height, onPointClick, downloadName }: Props) {
   const container = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
 
@@ -19,6 +21,7 @@ export default function Chart({ data, layout, label, height }: Props) {
     let observer: ResizeObserver | undefined;
     let plot: PlotlyHTMLElement | undefined;
     let purge: (() => void) | undefined;
+    let clickHandler: ((event: Plotly.PlotMouseEvent) => void) | undefined;
     let frame = 0;
     import('plotly.js-basic-dist-min').then(async ({ default: Plotly }) => {
       if (cancelled) return;
@@ -31,6 +34,13 @@ export default function Chart({ data, layout, label, height }: Props) {
         ...layout, autosize: true, height,
       }, { responsive: true, displayModeBar: false, scrollZoom: false });
       if (cancelled) { purge(); return; }
+      if (onPointClick) {
+        clickHandler = event => {
+          const custom = event.points?.[0]?.customdata;
+          if (typeof custom === 'string') onPointClick(custom);
+        };
+        plot.on('plotly_click', clickHandler);
+      }
       setStatus('ready');
       observer = new ResizeObserver(() => {
         cancelAnimationFrame(frame);
@@ -38,12 +48,19 @@ export default function Chart({ data, layout, label, height }: Props) {
       });
       observer.observe(element);
     }).catch(() => { if (!cancelled) setStatus('error'); });
-    return () => { cancelled = true; observer?.disconnect(); cancelAnimationFrame(frame); purge?.(); };
-  }, [data, layout, height]);
+    return () => { cancelled = true; observer?.disconnect(); cancelAnimationFrame(frame); if (plot && clickHandler) plot.removeAllListeners('plotly_click'); purge?.(); };
+  }, [data, layout, height, onPointClick]);
+
+  const download = async () => {
+    if (!container.current || !downloadName) return;
+    const { default: Plotly } = await import('plotly.js-basic-dist-min');
+    await Plotly.downloadImage(container.current, { format: 'png', filename: downloadName, width: 1600, height: 900, scale: 1.5 });
+  };
 
   return <div className="chart-shell" style={{ minHeight: height }}>
     {status === 'loading' && <div className="chart-loading" role="status">Carregando visualização…</div>}
     {status === 'error' && <div className="chart-loading" role="alert">Não foi possível carregar o gráfico. Os valores continuam disponíveis na tabela abaixo.</div>}
+    {downloadName && status === 'ready' && <button type="button" className="chart-export" onClick={() => void download()} aria-label={`Baixar gráfico: ${label}`} title="Baixar o gráfico em PNG">Baixar PNG</button>}
     <div ref={container} role="img" aria-label={label} className="plot" data-testid="plot" />
   </div>;
 }
